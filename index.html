@@ -103,18 +103,27 @@
             margin-top: 20px;
             box-shadow: 0 10px 20px rgba(0,0,0,0.05);
         }
+
+        /* Footer Grid */
+        .footer-grid-title {
+            color: var(--gold);
+            text-transform: uppercase;
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            display: block;
+        }
     </style>
 </head>
 <body>
 
     <!-- FLOATING SUPPORT HUB -->
     <div class="support-hub">
-        <!-- Updated WhatsApp with 16675129825 -->
         <a href="https://wa.me/16675129825?text=Hello%20welcome%20to%20Jessy%20Global%20Logistics%20need%20help%20in%20tracking%20your%20order" target="_blank" class="support-item" style="transition-delay: 0.1s;">
             <span>WhatsApp Support</span>
             <i class="fa-brands fa-whatsapp text-xl text-[#25D366]"></i>
         </a>
-        <!-- Updated Email with jessywells142@gmail.com -->
         <a href="mailto:jessywells142@gmail.com?subject=Tracking%20Help&body=Hello%20welcome%20to%20Jessy%20Global%20Logistics%20need%20help%20in%20tracking%20your%20order" class="support-item" style="transition-delay: 0.2s;">
             <span>Email Concierge</span>
             <i class="fa-solid fa-envelope text-xl text-[#d4af37]"></i>
@@ -238,7 +247,6 @@
                     </div>
                     <p class="text-sm italic text-slate-600 mb-6">"The absolute gold standard in logistics. My asset arrived ahead of schedule with full transparency at every node."</p>
                     <p class="font-bold text-xs uppercase tracking-tighter">Mr. Alexander Thorne</p>
-                    <p class="text-[9px] text-slate-400">Global Tech Investor</p>
                 </div>
                 <div class="card-luxury p-8 text-left">
                     <div class="flex text-[#d4af37] mb-4">
@@ -246,7 +254,6 @@
                     </div>
                     <p class="text-sm italic text-slate-600 mb-6">"Excellent care for live asset registry transport. The JL team provided peace of mind for a very complex international delivery."</p>
                     <p class="font-bold text-xs uppercase tracking-tighter">Dr. Elena Martinez</p>
-                    <p class="text-[9px] text-slate-400">Veterinary Specialist</p>
                 </div>
                 <div class="card-luxury p-8 text-left">
                     <div class="flex text-[#d4af37] mb-4">
@@ -254,7 +261,6 @@
                     </div>
                     <p class="text-sm italic text-slate-600 mb-6">"The tracking system is superior to any other freight carrier. Discreet, professional, and reliable. Highly recommended."</p>
                     <p class="font-bold text-xs uppercase tracking-tighter">Julian Von Berg</p>
-                    <p class="text-[9px] text-slate-400">Private Collector</p>
                 </div>
             </div>
         </div>
@@ -307,25 +313,48 @@
     </section>
 
     <!-- FOOTER -->
-    <footer class="bg-[#050505] py-16 px-8 text-center border-t border-white/5">
-        <div class="flex justify-center items-center mb-6">
-            <div class="jl-monogram" style="width:35px; height:35px; font-size:1rem;">JL</div>
-            <p class="text-white text-xl font-bold tracking-[2px] uppercase">JESSY<span class="text-[#d4af37]">LOGISTICS</span></p>
-        </div>
-        <p class="text-slate-600 text-[11px] uppercase tracking-[4px] mb-8">Official Global Registry & Logistics Group</p>
-        
-        <p class="text-slate-500 text-[10px] font-medium leading-relaxed max-w-2xl mx-auto mb-10">
-            © 2026 JESSY LOGISTICS® GROUP. ALL RIGHTS RESERVED. <br> 
-            OPERATED UNDER INTERNATIONAL MARITIME & AIR FREIGHT COMPLIANCE. <br>
-            SECURED END-TO-END REGISTRY SERVICES EST. 2018.
-        </p>
-        
-        <div class="flex justify-center space-x-8 items-center">
-            <!-- Updated Email with jessywells142@gmail.com -->
-            <a href="mailto:jessywells142@gmail.com?body=Hello%20welcome%20to%20Jessy%20Global%20Logistics%20need%20help%20in%20tracking%20your%20order" class="text-slate-600 hover:text-[#d4af37] transition"><i class="fa-solid fa-envelope text-xl"></i></a>
-            <!-- Updated WhatsApp with 16675129825 -->
-            <a href="https://wa.me/16675129825?text=Hello%20welcome%20to%20Jessy%20Global%20Logistics%20need%20help%20in%20tracking%20your%20order" class="text-slate-600 hover:text-[#25D366] transition"><i class="fa-brands fa-whatsapp text-xl"></i></a>
-            <i class="fa-solid fa-university text-slate-600"></i>
+    <footer class="bg-[#050505] pt-16 pb-12 px-8 border-t border-white/5">
+        <div class="max-w-6xl mx-auto text-center">
+            <div class="flex justify-center items-center mb-6">
+                <div class="jl-monogram" style="width:35px; height:35px; font-size:1rem;">JL</div>
+                <p class="text-white text-xl font-bold tracking-[2px] uppercase">JESSY<span class="text-[#d4af37]">LOGISTICS</span></p>
+            </div>
+            <p class="text-slate-600 text-[11px] uppercase tracking-[4px] mb-8">Official Global Registry & Logistics Group</p>
+            
+            <p class="text-slate-500 text-[10px] font-medium leading-relaxed max-w-2xl mx-auto mb-12">
+                © 2026 JESSY LOGISTICS® GROUP. ALL RIGHTS RESERVED. <br> 
+                OPERATED UNDER INTERNATIONAL MARITIME & AIR FREIGHT COMPLIANCE. <br>
+                SECURED END-TO-END REGISTRY SERVICES EST. 2018.
+            </p>
+
+            <!-- SITE CONTENT UNDER COPYRIGHT -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10 text-left border-t border-white/10 pt-12">
+                <!-- History -->
+                <div>
+                    <span class="footer-grid-title">Our History</span>
+                    <p class="text-slate-400 text-[11px] leading-relaxed">Established in 2018 as an Elite Registry. Evolved into a global logistics leader by 2026, providing secure air and ocean transit for high-value assets.</p>
+                </div>
+                <!-- Reviews -->
+                <div>
+                    <span class="footer-grid-title">Elite Reviews</span>
+                    <div class="text-[#d4af37] text-[10px] mb-2"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p class="text-slate-400 text-[11px] italic leading-relaxed">"Superior tracking and professional handling. The JL registry is world-class." - Alexander T.</p>
+                </div>
+                <!-- Refunds -->
+                <div>
+                    <span class="footer-grid-title">Refund Policy</span>
+                    <p class="text-slate-400 text-[11px] leading-relaxed">Insured transit settlement. Claims for transit delays or asset insurance must be filed through our secure settlement portal with a valid Reference ID.</p>
+                </div>
+                <!-- Contact Help -->
+                <div>
+                    <span class="footer-grid-title">Contact & Help</span>
+                    <p class="text-slate-400 text-[11px] mb-4">Need help tracking your order? Our concierge is available 24/7 for registry support.</p>
+                    <div class="flex space-x-4">
+                        <a href="mailto:jessywells142@gmail.com?body=Hello%20welcome%20to%20Jessy%20Global%20Logistics%20need%20help%20in%20tracking%20your%20order" class="text-slate-400 hover:text-[#d4af37] transition"><i class="fa-solid fa-envelope text-lg"></i></a>
+                        <a href="https://wa.me/16675129825?text=Hello%20welcome%20to%20Jessy%20Global%20Logistics%20need%20help%20in%20tracking%20your%20order" class="text-slate-400 hover:text-[#25D366] transition"><i class="fa-brands fa-whatsapp text-lg"></i></a>
+                    </div>
+                </div>
+            </div>
         </div>
     </footer>
 
