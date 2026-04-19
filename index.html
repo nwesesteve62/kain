@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JL | Jessy Global Logistics - Professional Freight & Tracking</title>
+    <title>JL | Jessy Global Logistics - International Freight & Courier Registry</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
@@ -18,20 +18,20 @@
         body { font-family: 'Inter', sans-serif; background-color: var(--slate); color: var(--navy); }
         .serif { font-family: 'Playfair Display', serif; }
         
-        /* Monogram Style */
+        /* BLACK & WHITE CIRCULAR LOGO (As Requested) */
         .jl-monogram {
-            background: var(--gold);
-            color: var(--navy);
-            width: 45px;
-            height: 45px;
+            background: #000;
+            color: #fff;
+            width: 50px;
+            height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 900;
             font-size: 1.2rem;
-            border-radius: 8px;
+            border-radius: 50%;
             margin-right: 12px;
-            border: 2px solid rgba(255,255,255,0.2);
+            border: 2px solid #fff;
         }
 
         .nav-blur { background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px); }
@@ -47,388 +47,239 @@
         .step-node { z-index: 2; position: relative; width: 40px; height: 40px; border-radius: 50%; background: white; border: 4px solid #e2e8f0; display: flex; align-items: center; justify-content: center; transition: 0.4s; }
         .step-node.active { border-color: var(--gold); background: var(--navy); color: var(--gold); }
 
-        /* Floating Support Hub */
-        .support-hub {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 2000;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            align-items: flex-end;
+        /* Professional Live Chat */
+        #live-chat-window {
+            position: fixed; bottom: 100px; right: 30px; width: 350px; height: 450px;
+            background: white; border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            z-index: 3000; display: none; flex-direction: column; overflow: hidden;
+            border: 1px solid #eee;
         }
-        .support-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: var(--navy);
-            color: white;
-            padding: 12px 20px;
-            border-radius: 50px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            text-decoration: none;
-            font-size: 0.8rem;
-            font-weight: 600;
-            border: 1px solid var(--gold);
-            transition: 0.3s;
-            transform: translateX(100px);
-            opacity: 0;
-        }
-        .support-hub:hover .support-item {
-            transform: translateX(0);
-            opacity: 1;
-        }
-        .support-trigger {
-            width: 60px;
-            height: 60px;
-            background: var(--gold);
-            color: var(--navy);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            cursor: pointer;
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
-            border: none;
-        }
+        .chat-header { background: var(--navy); color: white; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .chat-messages { flex-grow: 1; padding: 20px; overflow-y: auto; background: #f8fafc; font-size: 13px; }
+        .chat-input-area { padding: 15px; border-top: 1px solid #eee; display: flex; gap: 10px; }
+        .bot-msg { background: white; padding: 10px; border-radius: 12px; margin-bottom: 10px; border: 1px solid #e2e8f0; max-width: 85%; }
+        .user-msg { background: var(--gold); color: var(--navy); padding: 10px; border-radius: 12px; margin-bottom: 10px; align-self: flex-end; max-width: 85%; margin-left: auto; }
 
-        /* History Image Styles */
-        .history-img {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-            border-radius: 20px;
-            margin-top: 20px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-        }
-
-        /* Footer Grid */
-        .footer-grid-title {
-            color: var(--gold);
-            text-transform: uppercase;
-            font-size: 10px;
-            font-weight: 900;
-            letter-spacing: 2px;
-            margin-bottom: 15px;
-            display: block;
-        }
+        .country-pill { background: white; border: 1px solid #e2e8f0; padding: 10px 15px; border-radius: 12px; font-size: 11px; font-weight: 600; display: flex; align-items: center; gap: 8px; transition: 0.3s; }
+        .footer-grid-title { color: var(--gold); text-transform: uppercase; font-size: 10px; font-weight: 900; letter-spacing: 2px; margin-bottom: 15px; display: block; }
+        
+        .btn-auth { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 8px 18px; border-radius: 5px; transition: 0.3s; }
+        .btn-login { border: 1px solid var(--gold); color: var(--gold); }
+        .btn-signup { background: var(--gold); color: var(--navy); }
     </style>
 </head>
 <body>
 
-    <!-- FLOATING SUPPORT HUB -->
-    <div class="support-hub">
-        <a href="https://wa.me/16675129825?text=Hello%20welcome%20to%20Jessy%20Global%20Logistics%20need%20help%20in%20tracking%20your%20order" target="_blank" class="support-item" style="transition-delay: 0.1s;">
-            <span>WhatsApp Support</span>
-            <i class="fa-brands fa-whatsapp text-xl text-[#25D366]"></i>
-        </a>
-        <a href="mailto:jessywells142@gmail.com?subject=Tracking%20Help&body=Hello%20welcome%20to%20Jessy%20Global%20Logistics%20need%20help%20in%20tracking%20your%20order" class="support-item" style="transition-delay: 0.2s;">
-            <span>Email Concierge</span>
-            <i class="fa-solid fa-envelope text-xl text-[#d4af37]"></i>
-        </a>
-        <div class="support-trigger">
-            <i class="fa-solid fa-headset"></i>
+    <!-- LIVE CHAT -->
+    <div id="live-chat-window">
+        <div class="chat-header">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center font-bold">JL</div>
+                <div><p class="text-xs font-bold">Support Agent</p><p class="text-[10px] opacity-70">Always Online</p></div>
+            </div>
+            <button onclick="toggleChat()"><i class="fa-solid fa-xmark"></i></button>
         </div>
+        <div class="chat-messages" id="chatBox"><div class="bot-msg">Welcome to Jessy Global Logistics. Type your inquiry and we can sync to WhatsApp.</div></div>
+        <div class="chat-input-area">
+            <input type="text" id="userInput" placeholder="Your message..." class="flex-grow text-xs outline-none">
+            <button onclick="sendMessage()" class="text-navy"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+        <div class="p-3 bg-slate-100 text-center"><a id="waLink" href="https://wa.me/16675129825" target="_blank" class="text-[10px] font-bold text-green-600 uppercase tracking-widest"><i class="fa-brands fa-whatsapp mr-1"></i> Sync to WhatsApp</a></div>
     </div>
+
+    <button onclick="toggleChat()" class="fixed bottom-8 right-8 w-16 h-16 bg-[#000] text-white border-2 border-white rounded-full shadow-2xl z-[3001] flex items-center justify-center text-2xl"><i class="fa-solid fa-comments"></i></button>
 
     <!-- NAVIGATION -->
     <nav class="nav-blur fixed w-full z-50 px-8 py-4 flex justify-between items-center text-white border-b border-white/10">
         <div class="flex items-center">
+            <!-- BLACK AND WHITE LOGO -->
             <div class="jl-monogram">JL</div>
-            <a href="#" onclick="showSection('home')" class="logo text-xl font-bold tracking-[3px] uppercase">
-                JESSY<span class="text-[#d4af37]">LOGISTICS</span>
-            </a>
+            <a href="#" onclick="showSection('home')" class="logo text-xl font-bold tracking-[3px] uppercase">JESSY<span class="text-[#d4af37]">LOGISTICS</span></a>
         </div>
-        <div class="hidden md:flex space-x-8 text-[9px] font-bold uppercase tracking-[2px]">
+        <div class="hidden lg:flex space-x-8 text-[9px] font-bold uppercase tracking-[2px]">
             <a href="#" onclick="showSection('home')" class="hover:text-[#d4af37] transition">Tracking</a>
-            <a href="#" onclick="showSection('history')" class="hover:text-[#d4af37] transition">Our History</a>
+            <a href="#" onclick="showSection('services')" class="hover:text-[#d4af37] transition">Services</a>
             <a href="#" onclick="showSection('reviews')" class="hover:text-[#d4af37] transition">Reviews</a>
-            <a href="#" onclick="showSection('refund')" class="hover:text-[#d4af37] transition">Refunds</a>
-            <a href="#" onclick="showSection('admin')" class="bg-[#d4af37] text-navy px-5 py-2 rounded-lg hover:bg-white transition">Admin</a>
+            <a href="#" onclick="showSection('history')" class="hover:text-[#d4af37] transition">History</a>
+            <a href="#" onclick="showSection('admin')" class="text-slate-500">Admin</a>
+        </div>
+        <div id="authButtons" class="flex items-center space-x-4">
+            <button onclick="showSection('auth-login')" class="btn-auth btn-login">Login</button>
+            <button onclick="showSection('auth-signup')" class="btn-auth btn-signup">Sign Up</button>
+        </div>
+        <div id="userProfile" class="hidden flex items-center space-x-4">
+            <button onclick="showSection('login-dash')" class="text-[10px] font-bold uppercase text-[#d4af37]">Dashboard</button>
+            <button onclick="logout()" class="text-[10px] opacity-50 uppercase">Exit</button>
         </div>
     </nav>
 
-    <!-- HOME / TRACKING -->
+    <!-- AUTH LOGIN SECTION -->
+    <section id="auth-login" class="pt-40 pb-20 px-6">
+        <div class="max-w-md mx-auto card-luxury p-10">
+            <h2 class="serif text-3xl mb-6 text-center">Partner <span class="text-[#d4af37]">Login</span></h2>
+            <div class="space-y-4">
+                <input type="email" placeholder="Registry Email" class="w-full p-4 bg-slate-50 border rounded-xl outline-none">
+                <input type="password" placeholder="Password" class="w-full p-4 bg-slate-50 border rounded-xl outline-none">
+                <button onclick="login('existing')" class="w-full bg-navy text-white py-4 rounded-xl font-bold uppercase text-xs">Access Registry</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- AUTH SIGNUP SECTION -->
+    <section id="auth-signup" class="pt-40 pb-20 px-6">
+        <div class="max-w-md mx-auto card-luxury p-10">
+            <h2 class="serif text-3xl mb-6 text-center">Global <span class="text-[#d4af37]">Onboarding</span></h2>
+            <div class="space-y-4">
+                <input type="text" placeholder="Full Name / Entity Name" class="w-full p-4 bg-slate-50 border rounded-xl outline-none">
+                <input type="email" placeholder="Business Email" class="w-full p-4 bg-slate-50 border rounded-xl outline-none">
+                <input type="password" placeholder="Create Security Key" class="w-full p-4 bg-slate-50 border rounded-xl outline-none">
+                <button onclick="login('new')" class="w-full bg-gold text-navy py-4 rounded-xl font-bold uppercase text-xs">Create Registry Account</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOGIN DASHBOARD -->
+    <section id="login-dash" class="pt-40 pb-20 px-8">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="serif text-4xl mb-4">Partner <span class="text-[#d4af37]">Command Center</span></h2>
+            <p class="text-slate-500 mb-10 uppercase text-[10px] font-bold tracking-widest">Active Asset Monitoring</p>
+            <div class="grid md:grid-cols-3 gap-6 mb-10">
+                <div class="card-luxury p-8"><p class="text-[10px] uppercase font-bold text-slate-400 mb-2">Total Shipments</p><p class="text-3xl font-bold">04</p></div>
+                <div class="card-luxury p-8"><p class="text-[10px] uppercase font-bold text-slate-400 mb-2">Billing Currency</p><p class="text-3xl font-bold">USD / EUR</p></div>
+                <div class="card-luxury p-8"><p class="text-[10px] uppercase font-bold text-slate-400 mb-2">Inbound Alerts</p><p class="text-3xl font-bold text-green-500">None</p></div>
+            </div>
+            <div class="card-luxury overflow-hidden p-10"><p class="font-bold text-xs uppercase tracking-widest mb-4">Tracking History</p><div class="text-slate-400 italic text-sm">No historical data found for this session.</div></div>
+        </div>
+    </section>
+
+    <!-- SIGNUP DASHBOARD -->
+    <section id="signup-dash" class="pt-40 pb-20 px-8">
+        <div class="max-w-6xl mx-auto">
+            <div class="bg-navy text-white p-12 rounded-[40px] mb-10"><h2 class="serif text-4xl mb-4">Welcome, <span class="text-gold">New Partner</span></h2><p class="text-slate-400">Your global registry account is currently in <span class="text-gold font-bold">Pending Verification</span> mode.</p></div>
+            <div class="grid md:grid-cols-2 gap-10">
+                <div class="card-luxury p-10"><h3 class="font-bold mb-4">Onboarding Steps</h3><ul class="space-y-4 text-sm"><li class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-green-500"></i> Account Created</li><li class="flex items-center gap-3"><i class="fa-solid fa-circle text-slate-200"></i> Verify Email Address</li></ul></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOME / TRACKING (With Welcome Word) -->
     <section id="home" class="active pt-32 pb-20">
         <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center mb-20">
             <div>
-                <p class="text-[#d4af37] font-bold tracking-widest text-xs uppercase mb-4">Priority Freight Services</p>
-                <h1 class="serif text-6xl mb-6">Global Logistics <br><span class="italic text-[#d4af37]">Simplified.</span></h1>
-                <p class="text-slate-500 text-lg mb-8 leading-relaxed">The international standard for high-value asset transit. From Elite Registry companions to premium cargo, track your delivery with total transparency.</p>
+                <!-- WELCOME WORD (As Requested) -->
+                <p class="text-[#d4af37] font-bold tracking-[4px] text-xs uppercase mb-2">Welcome to our official website</p>
+                <h1 class="serif text-6xl mb-6 leading-tight">Global Logistics <br><span class="italic text-[#d4af37]">Simplified.</span></h1>
                 <div class="flex bg-white p-2 rounded-2xl shadow-2xl border border-slate-200">
                     <input id="trackInput" type="text" placeholder="Tracking ID (JL-901)" class="w-full px-6 py-4 outline-none text-lg">
-                    <button onclick="backend.track()" class="bg-[#0f172a] text-white px-10 py-4 rounded-xl font-bold hover:bg-[#d4af37] transition uppercase text-sm tracking-widest">Track</button>
+                    <button onclick="backend.track()" class="bg-[#0f172a] text-white px-10 py-4 rounded-xl font-bold hover:bg-[#d4af37] transition uppercase text-xs tracking-widest">Track</button>
                 </div>
             </div>
             <div class="relative grid grid-cols-2 gap-4">
-                <img src="https://images.unsplash.com/photo-1570710891163-6d3b5c47248b?auto=format&fit=crop&w=600&q=80" class="rounded-[40px] shadow-2xl mt-12" alt="Air Freight">
-                <img src="https://images.unsplash.com/photo-1494412574743-01927215e8b9?auto=format&fit=crop&w=600&q=80" class="rounded-[40px] shadow-2xl" alt="Ocean Freight">
+                <img src="https://images.unsplash.com/photo-1570710891163-6d3b5c47248b?auto=format&fit=crop&w=600&q=80" class="rounded-[40px] shadow-2xl mt-12">
+                <img src="https://images.unsplash.com/photo-1494412574743-01927215e8b9?auto=format&fit=crop&w=600&q=80" class="rounded-[40px] shadow-2xl">
             </div>
         </div>
+        <div id="trackResult" class="max-w-5xl mx-auto px-6 hidden"><div class="card-luxury p-12 relative overflow-hidden border-t-8 border-[#d4af37]"><h2 id="displayID" class="text-4xl font-bold mb-8"></h2><div id="historyLog"></div></div></div>
+    </section>
 
-        <!-- TRACKING RESULT -->
-        <div id="trackResult" class="max-w-5xl mx-auto px-6 hidden">
-            <div class="card-luxury p-12 relative overflow-hidden border-t-8 border-[#d4af37]">
-                <div class="flex justify-between items-start mb-12">
-                    <div>
-                        <h2 id="displayID" class="text-4xl font-bold mb-2"></h2>
-                        <p class="text-xs font-bold text-[#d4af37] uppercase tracking-widest">Secure Transit ID Verified</p>
-                    </div>
-                    <div class="text-right">
-                        <p id="displayLoc" class="text-xl font-semibold italic text-slate-600"></p>
-                        <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Last Checkpoint Location</p>
-                    </div>
-                </div>
-
-                <div class="relative mb-20 px-10">
-                    <div class="step-line w-full"></div>
-                    <div id="progressFill" class="step-line bg-[#d4af37] w-0"></div>
-                    <div class="flex justify-between relative z-10">
-                        <div class="text-center"><div id="node1" class="step-node active"><i class="fa-solid fa-box"></i></div><span class="text-[9px] font-bold mt-2 uppercase tracking-tighter">Manifest</span></div>
-                        <div class="text-center"><div id="node2" class="step-node"><i class="fa-solid fa-ship"></i></div><span class="text-[9px] font-bold mt-2 uppercase tracking-tighter">Ocean Gate</span></div>
-                        <div class="text-center"><div id="node3" class="step-node"><i class="fa-solid fa-plane"></i></div><span class="text-[9px] font-bold mt-2 uppercase tracking-tighter">Air Transit</span></div>
-                        <div class="text-center"><div id="node4" class="step-node"><i class="fa-solid fa-house-chimney"></i></div><span class="text-[9px] font-bold mt-2 uppercase tracking-tighter">Arrival</span></div>
-                    </div>
-                </div>
-
-                <div class="bg-slate-50 rounded-2xl p-8 border border-slate-100">
-                    <h3 class="text-[10px] font-black uppercase tracking-[3px] mb-6 text-slate-400">Activity & Verification Log</h3>
-                    <div id="historyLog" class="space-y-6"></div>
-                </div>
+    <!-- SERVICES (With Official Flags) -->
+    <section id="services" class="pt-32 pb-20 px-8">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="serif text-5xl mb-4 text-center">Global <span class="text-[#d4af37]">Network</span></h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4 mb-20">
+                <!-- OFFICIAL FLAGS (As Requested) -->
+                <div class="country-pill"><img src="https://flagcdn.com/w40/ar.png" width="20"> Argentina</div>
+                <div class="country-pill"><img src="https://flagcdn.com/w40/br.png" width="20"> Brazil</div>
+                <div class="country-pill"><img src="https://flagcdn.com/w40/ca.png" width="20"> Canada</div>
+                <div class="country-pill"><img src="https://flagcdn.com/w40/cl.png" width="20"> Chile</div>
+                <div class="country-pill"><img src="https://flagcdn.com/w40/co.png" width="20"> Colombia</div>
+                <div class="country-pill"><img src="https://flagcdn.com/w40/es.png" width="20"> Spain</div>
+                <div class="country-pill"><img src="https://flagcdn.com/w40/fr.png" width="20"> France</div>
+                <div class="country-pill"><img src="https://flagcdn.com/w40/gt.png" width="20"> Guatemala</div>
+                <div class="country-pill"><img src="https://flagcdn.com/w40/in.png" width="20"> India</div>
+                <div class="country-pill"><img src="https://flagcdn.com/w40/it.png" width="20"> Italy</div>
+                <div class="country-pill"><img src="https://flagcdn.com/w40/mx.png" width="20"> Mexico</div>
+                <div class="country-pill"><img src="https://flagcdn.com/w40/us.png" width="20"> USA</div>
+                <div class="country-pill"><img src="https://flagcdn.com/w40/pr.png" width="20"> Puerto Rico</div>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8 mb-20">
+                <div class="card-luxury p-10 border-b-4 border-blue-500"><h3 class="font-bold mb-4">Local Shipments</h3><p class="text-slate-500 text-xs">Same-day intra-city express transport for time-sensitive assets.</p></div>
+                <div class="card-luxury p-10 border-b-4 border-amber-500"><h3 class="font-bold mb-4">Domestic Shipments</h3><p class="text-slate-500 text-xs">Nationwide logistics covering state-to-state freight.</p></div>
+                <div class="card-luxury p-10 border-b-4 border-[#d4af37]"><h3 class="font-bold mb-4">International Shipments</h3><p class="text-slate-500 text-xs">Global air and sea freight with full customs brokerage.</p></div>
             </div>
         </div>
     </section>
 
-    <!-- HISTORY SECTION -->
-    <section id="history" class="pt-32 pb-20 px-8">
-        <div class="max-w-4xl mx-auto text-center">
-            <h2 class="serif text-5xl mb-12">Our <span class="text-[#d4af37]">Evolution</span></h2>
-            <div class="space-y-20 text-left">
-                <div class="flex gap-8 items-start border-l-2 border-[#d4af37] pl-8 py-4">
-                    <h4 class="text-2xl font-bold text-[#d4af37]">2018</h4>
-                    <div>
-                        <p class="font-bold text-navy text-xl mb-2">The Foundation</p>
-                        <p class="text-slate-500 mb-4">Jessy Pets was founded as an Elite American Pedigree Registry, focusing on the preservation and health certification of premier bloodlines.</p>
-                        <img src="https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=800&q=80" class="history-img" alt="2018 Foundation">
-                    </div>
-                </div>
-                <div class="flex gap-8 items-start border-l-2 border-[#d4af37] pl-8 py-4">
-                    <h4 class="text-2xl font-bold text-[#d4af37]">2022</h4>
-                    <div>
-                        <p class="font-bold text-navy text-xl mb-2">Logistical Integration</p>
-                        <p class="text-slate-500 mb-4">Recognizing a gap in secure international pet transit, we launched our internal logistics division to control the safety and tracking of our registries.</p>
-                        <img src="https://images.unsplash.com/photo-1519003722824-194d4455a60c?auto=format&fit=crop&w=800&q=80" class="history-img" alt="2022 Logistics">
-                    </div>
-                </div>
-                <div class="flex gap-8 items-start border-l-2 border-[#d4af37] pl-8 py-4">
-                    <h4 class="text-2xl font-bold text-[#d4af37]">2026</h4>
-                    <div>
-                        <p class="font-bold text-navy text-xl mb-2">Global Freight Leadership</p>
-                        <p class="text-slate-500 mb-4">Today, Jessy Logistics (JL) operates as a full-scale global freight partner for high-value cargo and living assets worldwide.</p>
-                        <img src="https://images.unsplash.com/photo-1566576721346-d4a3b4eaad5b?auto=format&fit=crop&w=800&q=80" class="history-img" alt="2026 Global Freight">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- REVIEWS SECTION -->
+    <!-- REVIEWS (7 Testimonials) -->
     <section id="reviews" class="pt-32 pb-20 px-8">
-        <div class="max-w-6xl mx-auto text-center">
-            <h2 class="serif text-5xl mb-4">Client <span class="text-[#d4af37]">Testimonials</span></h2>
-            <p class="text-slate-500 mb-16 uppercase tracking-widest text-[10px] font-bold">Verified Luxury Logistics Feedback</p>
-            
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="card-luxury p-8 text-left">
-                    <div class="flex text-[#d4af37] mb-4">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                    </div>
-                    <p class="text-sm italic text-slate-600 mb-6">"The absolute gold standard in logistics. My asset arrived ahead of schedule with full transparency at every node."</p>
-                    <p class="font-bold text-xs uppercase tracking-tighter">Mr. Alexander Thorne</p>
-                </div>
-                <div class="card-luxury p-8 text-left">
-                    <div class="flex text-[#d4af37] mb-4">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <p class="text-sm italic text-slate-600 mb-6">"Excellent care for live asset registry transport. The JL team provided peace of mind for a very complex international delivery."</p>
-                    <p class="font-bold text-xs uppercase tracking-tighter">Dr. Elena Martinez</p>
-                </div>
-                <div class="card-luxury p-8 text-left">
-                    <div class="flex text-[#d4af37] mb-4">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                    </div>
-                    <p class="text-sm italic text-slate-600 mb-6">"The tracking system is superior to any other freight carrier. Discreet, professional, and reliable. Highly recommended."</p>
-                    <p class="font-bold text-xs uppercase tracking-tighter">Julian Von Berg</p>
-                </div>
+        <div class="max-w-7xl mx-auto text-center">
+            <h2 class="serif text-5xl mb-12">Verified <span class="text-[#d4af37]">Testimonials</span></h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <div class="card-luxury p-6 text-left"><div class="text-gold text-xs mb-3"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><p class="text-xs italic text-slate-500">"Exceptional tracking precision for our exports to Spain."</p><p class="mt-4 font-bold text-[10px] uppercase">— Aris T.</p></div>
+                <div class="card-luxury p-6 text-left"><div class="text-gold text-xs mb-3"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><p class="text-xs italic text-slate-500">"The fastest courier service in Chile. Reliable and secure."</p><p class="mt-4 font-bold text-[10px] uppercase">— Elena R.</p></div>
+                <div class="card-luxury p-6 text-left"><div class="text-gold text-xs mb-3"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><p class="text-xs italic text-slate-500">"Handled our assets from Canada with absolute care."</p><p class="mt-4 font-bold text-[10px] uppercase">— Marcus V.</p></div>
+                <div class="card-luxury p-6 text-left"><div class="text-gold text-xs mb-3"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><p class="text-xs italic text-slate-500">"Smooth customs clearance in Mexico. Professional team."</p><p class="mt-4 font-bold text-[10px] uppercase">— Julian B.</p></div>
+                <div class="card-luxury p-6 text-left"><div class="text-gold text-xs mb-3"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><p class="text-xs italic text-slate-500">"Excellent domestic coverage in the United States."</p><p class="mt-4 font-bold text-[10px] uppercase">— Sarah J.</p></div>
+                <div class="card-luxury p-6 text-left"><div class="text-gold text-xs mb-3"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><p class="text-xs italic text-slate-500">"Global reach, local expertise. Best in Guatemala."</p><p class="mt-4 font-bold text-[10px] uppercase">— Robert H.</p></div>
+                <div class="card-luxury p-6 text-left"><div class="text-gold text-xs mb-3"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><p class="text-xs italic text-slate-500">"Verified air-freight registry. Totally transparent."</p><p class="mt-4 font-bold text-[10px] uppercase">— Sophia K.</p></div>
             </div>
         </div>
     </section>
 
-    <!-- REFUND PORTAL -->
-    <section id="refund" class="pt-32 pb-20 px-6">
-        <div class="max-w-3xl mx-auto text-center">
-            <h2 class="serif text-5xl mb-12">Asset <span class="text-[#d4af37]">Settlement</span></h2>
-            <form onsubmit="backend.submitRefund(event)" class="card-luxury p-12 space-y-8 text-left">
-                <div class="grid md:grid-cols-2 gap-8">
-                    <div>
-                        <label class="block text-[10px] font-bold uppercase mb-2 tracking-widest text-slate-400">Reference ID</label>
-                        <input required id="refID" type="text" class="w-full p-4 bg-slate-50 rounded-xl border border-slate-200 outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-[10px] font-bold uppercase mb-2 tracking-widest text-slate-400">Claim Category</label>
-                        <select class="w-full p-4 bg-slate-50 rounded-xl border border-slate-200 outline-none">
-                            <option>Transit Delay</option>
-                            <option>Insurance Replacement</option>
-                        </select>
-                    </div>
-                </div>
-                <textarea required class="w-full p-4 bg-slate-50 rounded-xl border border-slate-200 outline-none" rows="4" placeholder="Briefly describe the claim requirements..."></textarea>
-                <button type="submit" class="w-full bg-[#0f172a] text-white py-5 rounded-xl font-bold hover:bg-[#d4af37] transition uppercase tracking-[3px] text-sm">Submit Claim</button>
-            </form>
-        </div>
-    </section>
-
-    <!-- ADMIN -->
-    <section id="admin" class="pt-32 pb-20 px-6">
-        <div class="max-w-5xl mx-auto">
-            <div class="flex justify-between items-center mb-10">
-                <h2 class="serif text-4xl">Executive Panel</h2>
-                <div class="jl-monogram">JL</div>
-            </div>
-            <div class="card-luxury overflow-hidden">
-                <table class="w-full text-left">
-                    <thead class="bg-slate-50 border-b border-slate-200">
-                        <tr>
-                            <th class="px-8 py-5 text-[10px] font-black uppercase text-slate-400 tracking-widest">Asset ID</th>
-                            <th class="px-8 py-5 text-[10px] font-black uppercase text-slate-400 tracking-widest">Status Level</th>
-                            <th class="px-8 py-5 text-[10px] font-black uppercase text-slate-400 tracking-widest">Control</th>
-                        </tr>
-                    </thead>
-                    <tbody id="adminTable" class="divide-y divide-slate-100"></tbody>
-                </table>
+    <!-- HISTORY -->
+    <section id="history" class="pt-32 pb-20 px-8">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="serif text-5xl mb-12 text-center">The JL <span class="text-[#d4af37]">Evolution</span></h2>
+            <div class="space-y-12">
+                <div class="flex gap-8 items-start border-l-4 border-black pl-8 py-4"><div><h4 class="text-2xl font-bold text-navy mb-2 italic">2018: Inception</h4><p class="text-slate-500">Founded as a boutique registry for high-value asset compliance.</p></div></div>
+                <div class="flex gap-8 items-start border-l-4 border-black pl-8 py-4"><div><h4 class="text-2xl font-bold text-navy mb-2 italic">2022: Global Scaling</h4><p class="text-slate-500">Expanded our physical presence into 13 countries across 3 continents.</p></div></div>
+                <div class="flex gap-8 items-start border-l-4 border-black pl-8 py-4"><div><h4 class="text-2xl font-bold text-navy mb-2 italic">2026: Digital Logistics Era</h4><p class="text-slate-500">Today, Jessy Global Logistics is a leading international courier hub with live AI monitoring.</p></div></div>
             </div>
         </div>
     </section>
 
     <!-- FOOTER -->
-    <footer class="bg-[#050505] pt-16 pb-12 px-8 border-t border-white/5">
+    <footer class="bg-[#000] pt-16 pb-12 px-8 text-white border-t border-white/10">
         <div class="max-w-6xl mx-auto text-center">
             <div class="flex justify-center items-center mb-6">
-                <div class="jl-monogram" style="width:35px; height:35px; font-size:1rem;">JL</div>
-                <p class="text-white text-xl font-bold tracking-[2px] uppercase">JESSY<span class="text-[#d4af37]">LOGISTICS</span></p>
+                <!-- B&W Circular Logo -->
+                <div class="jl-monogram">JL</div>
+                <p class="text-xl font-bold tracking-[2px] uppercase">JESSY<span class="text-[#d4af37]">LOGISTICS</span></p>
             </div>
-            <p class="text-slate-600 text-[11px] uppercase tracking-[4px] mb-8">Official Global Registry & Logistics Group</p>
-            
-            <p class="text-slate-500 text-[10px] font-medium leading-relaxed max-w-2xl mx-auto mb-12">
-                © 2026 JESSY LOGISTICS® GROUP. ALL RIGHTS RESERVED. <br> 
-                OPERATED UNDER INTERNATIONAL MARITIME & AIR FREIGHT COMPLIANCE. <br>
-                SECURED END-TO-END REGISTRY SERVICES EST. 2018.
-            </p>
-
-            <!-- SITE CONTENT UNDER COPYRIGHT -->
+            <p class="text-slate-500 text-[10px] mb-12 max-w-2xl mx-auto italic">© 2026 JESSY LOGISTICS® GROUP. INTERNATIONAL MARITIME & AIR COMPLIANCE SECURED. EST 2018.</p>
             <div class="grid grid-cols-1 md:grid-cols-4 gap-10 text-left border-t border-white/10 pt-12">
-                <!-- History -->
-                <div>
-                    <span class="footer-grid-title">Our History</span>
-                    <p class="text-slate-400 text-[11px] leading-relaxed">Established in 2018 as an Elite Registry. Evolved into a global logistics leader by 2026, providing secure air and ocean transit for high-value assets.</p>
-                </div>
-                <!-- Reviews -->
-                <div>
-                    <span class="footer-grid-title">Elite Reviews</span>
-                    <div class="text-[#d4af37] text-[10px] mb-2"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                    <p class="text-slate-400 text-[11px] italic leading-relaxed">"Superior tracking and professional handling. The JL registry is world-class." - Alexander T.</p>
-                </div>
-                <!-- Refunds -->
-                <div>
-                    <span class="footer-grid-title">Refund Policy</span>
-                    <p class="text-slate-400 text-[11px] leading-relaxed">Insured transit settlement. Claims for transit delays or asset insurance must be filed through our secure settlement portal with a valid Reference ID.</p>
-                </div>
-                <!-- Contact Help -->
-                <div>
-                    <span class="footer-grid-title">Contact & Help</span>
-                    <p class="text-slate-400 text-[11px] mb-4">Need help tracking your order? Our concierge is available 24/7 for registry support.</p>
-                    <div class="flex space-x-4">
-                        <a href="mailto:jessywells142@gmail.com?body=Hello%20welcome%20to%20Jessy%20Global%20Logistics%20need%20help%20in%20tracking%20your%20order" class="text-slate-400 hover:text-[#d4af37] transition"><i class="fa-solid fa-envelope text-lg"></i></a>
-                        <a href="https://wa.me/16675129825?text=Hello%20welcome%20to%20Jessy%20Global%20Logistics%20need%20help%20in%20tracking%20your%20order" class="text-slate-400 hover:text-[#25D366] transition"><i class="fa-brands fa-whatsapp text-lg"></i></a>
-                    </div>
-                </div>
+                <div><span class="footer-grid-title">Our Evolution</span><p class="text-slate-400 text-[11px]">Since 2018, we have evolved from a local registry into a global courier force.</p></div>
+                <div><span class="footer-grid-title">Elite Reviews</span><p class="text-slate-400 text-[11px]">"Unmatched reliability." - Sarah J., USA Hub.</p></div>
+                <div><span class="footer-grid-title">Refund & Legal</span><p class="text-slate-400 text-[11px]">Full insurance coverage on all verified transit assets.</p></div>
+                <div><span class="footer-grid-title">Support Hub</span><div class="flex space-x-4"><a href="mailto:jessywells142@gmail.com" class="text-slate-400 hover:text-[#d4af37]"><i class="fa-solid fa-envelope text-lg"></i></a><a href="https://wa.me/16675129825" class="text-slate-400 hover:text-[#25D366]"><i class="fa-brands fa-whatsapp text-lg"></i></a></div></div>
             </div>
         </div>
     </footer>
 
     <script>
         const backend = {
-            db: [
-                { id: "JL-901", status: 1, loc: "Registry Hub, CA", history: [{time: "March 22, 2026 - 10:00 AM", msg: "Registry manifest confirmed. Cargo locked."}] },
-                { id: "JL-552", status: 2, loc: "International Port (Sea)", history: [{time: "March 21, 2026 - 02:00 PM", msg: "Cleared gate security at Port Authority."}] },
-                { id: "JL-102", status: 4, loc: "Delivered", history: [{time: "March 20, 2026 - 06:15 PM", msg: "Asset successfully received and signed."}] }
-            ],
-
+            db: [{ id: "JL-901", status: 1, loc: "Global Hub" }],
             track: function() {
                 const id = document.getElementById('trackInput').value.toUpperCase();
                 const order = this.db.find(o => o.id === id);
-                const resDiv = document.getElementById('trackResult');
-                
-                if (order) {
-                    resDiv.classList.remove('hidden');
-                    document.getElementById('displayID').innerText = order.id;
-                    document.getElementById('displayLoc').innerText = order.loc;
-                    document.getElementById('progressFill').style.width = ((order.status - 1) / 3) * 100 + "%";
-                    
-                    for(let i=1; i<=4; i++) {
-                        const node = document.getElementById('node'+i);
-                        order.status >= i ? node.classList.add('active') : node.classList.remove('active');
-                    }
-
-                    document.getElementById('historyLog').innerHTML = order.history.map(h => `
-                        <div class="flex items-start gap-4">
-                            <div class="w-32 text-[10px] text-slate-400 font-bold uppercase">${h.time}</div>
-                            <div class="flex-grow border-l-2 border-slate-200 pl-4 text-xs font-semibold text-navy">${h.msg}</div>
-                        </div>
-                    `).join('');
-                    window.scrollTo(0, resDiv.offsetTop - 120);
-                } else {
-                    alert("ID not found in the global registry.");
-                }
-            },
-
-            updateStage: function(id) {
-                const order = this.db.find(o => o.id === id);
-                if(order.status < 4) {
-                    order.status++;
-                    const locs = ["Ocean Port", "Air Transit", "Delivered"];
-                    order.loc = locs[order.status-2];
-                    order.history.unshift({ time: new Date().toLocaleString(), msg: "Status promoted by administrator to Level " + order.status });
-                    renderAdminTable();
-                }
-            },
-
-            submitRefund: function(e) {
-                e.preventDefault();
-                alert("CLAIM REGISTERED: Our team will verify reference " + document.getElementById('refID').value + " shortly.");
-                showSection('home');
+                if (order) { document.getElementById('trackResult').classList.remove('hidden'); document.getElementById('displayID').innerText = order.id; window.scrollTo(0, document.getElementById('trackResult').offsetTop - 100); }
+                else { alert("ID Not Found."); }
             }
         };
-
-        function showSection(id) {
-            document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            if(id === 'admin') renderAdminTable();
-            window.scrollTo(0,0);
+        function toggleChat() { const chat = document.getElementById('live-chat-window'); chat.style.display = chat.style.display === 'flex' ? 'none' : 'flex'; }
+        function sendMessage() {
+            const input = document.getElementById('userInput'); const box = document.getElementById('chatBox');
+            if(!input.value) return;
+            box.innerHTML += `<div class="user-msg">${input.value}</div>`; const msg = input.value; input.value = "";
+            setTimeout(() => {
+                box.innerHTML += `<div class="bot-msg">Agent reviewing. Sync to WhatsApp for assistance.</div>`;
+                document.getElementById('waLink').href = `https://wa.me/16675129825?text=Inquiry:%20${encodeURIComponent(msg)}`;
+                box.scrollTop = box.scrollHeight;
+            }, 1000);
         }
-
-        function renderAdminTable() {
-            const table = document.getElementById('adminTable');
-            table.innerHTML = backend.db.map(o => `
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="px-8 py-6 font-bold text-navy">${o.id}</td>
-                    <td class="px-8 py-6"><span class="bg-navy text-white text-[9px] px-3 py-1 rounded-full font-black">STAGED ${o.status}/4</span></td>
-                    <td class="px-8 py-6"><button onclick="backend.updateStage('${o.id}')" class="text-[10px] font-black text-[#d4af37] uppercase border-b-2 border-[#d4af37]">Update</button></td>
-                </tr>
-            `).join('');
-        }
+        function login(type) { document.getElementById('authButtons').classList.add('hidden'); document.getElementById('userProfile').classList.remove('hidden'); showSection(type === 'new' ? 'signup-dash' : 'login-dash'); }
+        function logout() { document.getElementById('authButtons').classList.remove('hidden'); document.getElementById('userProfile').classList.add('hidden'); showSection('home'); }
+        function showSection(id) { document.querySelectorAll('section').forEach(s => s.classList.remove('active')); document.getElementById(id).classList.add('active'); window.scrollTo(0,0); }
     </script>
 </body>
 </html>
