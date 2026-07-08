@@ -3,283 +3,367 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JL | Jessy Global Logistics - International Freight & Courier Registry</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <title>AirPets International | Safe, Stress-Free Pet Relocation</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <style>
-        :root {
-            --navy: #0f172a;
-            --gold: #d4af37;
-            --slate: #f1f5f9;
-        }
-        body { font-family: 'Inter', sans-serif; background-color: var(--slate); color: var(--navy); }
-        .serif { font-family: 'Playfair Display', serif; }
-        
-        /* BLACK & WHITE CIRCULAR LOGO (As Requested) */
-        .jl-monogram {
-            background: #000;
-            color: #fff;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 900;
-            font-size: 1.2rem;
-            border-radius: 50%;
-            margin-right: 12px;
-            border: 2px solid #fff;
-        }
-
-        .nav-blur { background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px); }
-        .card-luxury { background: white; border-radius: 24px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1); border: 1px solid rgba(0,0,0,0.05); }
-        
-        section { display: none; }
-        section.active { display: block; animation: fadeIn 0.8s ease-out; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* Progress Steps */
-        .step-line { position: absolute; top: 20px; left: 0; height: 4px; background: #e2e8f0; z-index: 1; transition: width 0.8s ease; }
-        .step-node { z-index: 2; position: relative; width: 40px; height: 40px; border-radius: 50%; background: white; border: 4px solid #e2e8f0; display: flex; align-items: center; justify-content: center; transition: 0.4s; }
-        .step-node.active { border-color: var(--gold); background: var(--navy); color: var(--gold); }
-
-        /* Professional Live Chat */
-        #live-chat-window {
-            position: fixed; bottom: 100px; right: 30px; width: 350px; height: 450px;
-            background: white; border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.2);
-            z-index: 3000; display: none; flex-direction: column; overflow: hidden;
-            border: 1px solid #eee;
-        }
-        .chat-header { background: var(--navy); color: white; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
-        .chat-messages { flex-grow: 1; padding: 20px; overflow-y: auto; background: #f8fafc; font-size: 13px; }
-        .chat-input-area { padding: 15px; border-top: 1px solid #eee; display: flex; gap: 10px; }
-        .bot-msg { background: white; padding: 10px; border-radius: 12px; margin-bottom: 10px; border: 1px solid #e2e8f0; max-width: 85%; }
-        .user-msg { background: var(--gold); color: var(--navy); padding: 10px; border-radius: 12px; margin-bottom: 10px; align-self: flex-end; max-width: 85%; margin-left: auto; }
-
-        .country-pill { background: white; border: 1px solid #e2e8f0; padding: 10px 15px; border-radius: 12px; font-size: 11px; font-weight: 600; display: flex; align-items: center; gap: 8px; transition: 0.3s; }
-        .footer-grid-title { color: var(--gold); text-transform: uppercase; font-size: 10px; font-weight: 900; letter-spacing: 2px; margin-bottom: 15px; display: block; }
-        
-        .btn-auth { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 8px 18px; border-radius: 5px; transition: 0.3s; }
-        .btn-login { border: 1px solid var(--gold); color: var(--gold); }
-        .btn-signup { background: var(--gold); color: var(--navy); }
-    </style>
 </head>
 <body>
 
-    <!-- LIVE CHAT -->
-    <div id="live-chat-window">
-        <div class="chat-header">
-            <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center font-bold">JL</div>
-                <div><p class="text-xs font-bold">Support Agent</p><p class="text-[10px] opacity-70">Always Online</p></div>
-            </div>
-            <button onclick="toggleChat()"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-        <div class="chat-messages" id="chatBox"><div class="bot-msg">Welcome to Jessy Global Logistics. Type your inquiry and we can sync to WhatsApp.</div></div>
-        <div class="chat-input-area">
-            <input type="text" id="userInput" placeholder="Your message..." class="flex-grow text-xs outline-none">
-            <button onclick="sendMessage()" class="text-navy"><i class="fa-solid fa-paper-plane"></i></button>
-        </div>
-        <div class="p-3 bg-slate-100 text-center"><a id="waLink" href="https://wa.me/16675129825" target="_blank" class="text-[10px] font-bold text-green-600 uppercase tracking-widest"><i class="fa-brands fa-whatsapp mr-1"></i> Sync to WhatsApp</a></div>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <a href="#" class="top-btn">DOWNLOAD OUR GUIDE <i class="fa-solid fa-arrow-right"></i></a>
+        <a href="adoption.html" class="top-btn">AVAILABLE PETS <i class="fa-solid fa-arrow-right"></i></a>
+        <a href="tracking.html" class="top-btn">TRACK PETS </i></a>
     </div>
 
-    <button onclick="toggleChat()" class="fixed bottom-8 right-8 w-16 h-16 bg-[#000] text-white border-2 border-white rounded-full shadow-2xl z-[3001] flex items-center justify-center text-2xl"><i class="fa-solid fa-comments"></i></button>
-
-    <!-- NAVIGATION -->
-    <nav class="nav-blur fixed w-full z-50 px-8 py-4 flex justify-between items-center text-white border-b border-white/10">
-        <div class="flex items-center">
-            <!-- BLACK AND WHITE LOGO -->
-            <div class="jl-monogram">JL</div>
-            <a href="#" onclick="showSection('home')" class="logo text-xl font-bold tracking-[3px] uppercase">JESSY<span class="text-[#d4af37]">LOGISTICS</span></a>
-        </div>
-        <div class="hidden lg:flex space-x-8 text-[9px] font-bold uppercase tracking-[2px]">
-            <a href="#" onclick="showSection('home')" class="hover:text-[#d4af37] transition">Tracking</a>
-            <a href="#" onclick="showSection('services')" class="hover:text-[#d4af37] transition">Services</a>
-            <a href="#" onclick="showSection('reviews')" class="hover:text-[#d4af37] transition">Reviews</a>
-            <a href="#" onclick="showSection('history')" class="hover:text-[#d4af37] transition">History</a>
-            <a href="#" onclick="showSection('admin')" class="text-slate-500">Admin</a>
-        </div>
-        <div id="authButtons" class="flex items-center space-x-4">
-            <button onclick="showSection('auth-login')" class="btn-auth btn-login">Login</button>
-            <button onclick="showSection('auth-signup')" class="btn-auth btn-signup">Sign Up</button>
-        </div>
-        <div id="userProfile" class="hidden flex items-center space-x-4">
-            <button onclick="showSection('login-dash')" class="text-[10px] font-bold uppercase text-[#d4af37]">Dashboard</button>
-            <button onclick="logout()" class="text-[10px] opacity-50 uppercase">Exit</button>
-        </div>
-    </nav>
-
-    <!-- AUTH LOGIN SECTION -->
-    <section id="auth-login" class="pt-40 pb-20 px-6">
-        <div class="max-w-md mx-auto card-luxury p-10">
-            <h2 class="serif text-3xl mb-6 text-center">Partner <span class="text-[#d4af37]">Login</span></h2>
-            <div class="space-y-4">
-                <input type="email" placeholder="Registry Email" class="w-full p-4 bg-slate-50 border rounded-xl outline-none">
-                <input type="password" placeholder="Password" class="w-full p-4 bg-slate-50 border rounded-xl outline-none">
-                <button onclick="login('existing')" class="w-full bg-navy text-white py-4 rounded-xl font-bold uppercase text-xs">Access Registry</button>
+    <!-- Main Navigation -->
+    <header class="header" id="header">
+        <div class="container nav-container">
+            <a href="#" class="nav-left">
+                <i class="fa-solid fa-globe"></i>
+                <span>RELOCATION MAP</span>
+            </a>
+            <div class="logo">
+                <img src="images/AirPets International.jpg"AirPets International">
             </div>
+            <div class="nav-right">
+                <i class="fa-solid fa-bars hamburger"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-overlay"></div>
+        <div class="container hero-content">
+            <h1>SAFE, STRESS-FREE PET RELOCATION</h1>
+            <p>Move Your Pets Worldwide — To, From, or Within the US</p>
+            <a href="#" class="btn btn-primary">GET AN ESTIMATE <i class="fa-solid fa-arrow-right"></i></a>
         </div>
     </section>
 
-    <!-- AUTH SIGNUP SECTION -->
-    <section id="auth-signup" class="pt-40 pb-20 px-6">
-        <div class="max-w-md mx-auto card-luxury p-10">
-            <h2 class="serif text-3xl mb-6 text-center">Global <span class="text-[#d4af37]">Onboarding</span></h2>
-            <div class="space-y-4">
-                <input type="text" placeholder="Full Name / Entity Name" class="w-full p-4 bg-slate-50 border rounded-xl outline-none">
-                <input type="email" placeholder="Business Email" class="w-full p-4 bg-slate-50 border rounded-xl outline-none">
-                <input type="password" placeholder="Create Security Key" class="w-full p-4 bg-slate-50 border rounded-xl outline-none">
-                <button onclick="login('new')" class="w-full bg-gold text-navy py-4 rounded-xl font-bold uppercase text-xs">Create Registry Account</button>
-            </div>
-        </div>
-    </section>
-
-    <!-- LOGIN DASHBOARD -->
-    <section id="login-dash" class="pt-40 pb-20 px-8">
-        <div class="max-w-6xl mx-auto">
-            <h2 class="serif text-4xl mb-4">Partner <span class="text-[#d4af37]">Command Center</span></h2>
-            <p class="text-slate-500 mb-10 uppercase text-[10px] font-bold tracking-widest">Active Asset Monitoring</p>
-            <div class="grid md:grid-cols-3 gap-6 mb-10">
-                <div class="card-luxury p-8"><p class="text-[10px] uppercase font-bold text-slate-400 mb-2">Total Shipments</p><p class="text-3xl font-bold">04</p></div>
-                <div class="card-luxury p-8"><p class="text-[10px] uppercase font-bold text-slate-400 mb-2">Billing Currency</p><p class="text-3xl font-bold">USD / EUR</p></div>
-                <div class="card-luxury p-8"><p class="text-[10px] uppercase font-bold text-slate-400 mb-2">Inbound Alerts</p><p class="text-3xl font-bold text-green-500">None</p></div>
-            </div>
-            <div class="card-luxury overflow-hidden p-10"><p class="font-bold text-xs uppercase tracking-widest mb-4">Tracking History</p><div class="text-slate-400 italic text-sm">No historical data found for this session.</div></div>
-        </div>
-    </section>
-
-    <!-- SIGNUP DASHBOARD -->
-    <section id="signup-dash" class="pt-40 pb-20 px-8">
-        <div class="max-w-6xl mx-auto">
-            <div class="bg-navy text-white p-12 rounded-[40px] mb-10"><h2 class="serif text-4xl mb-4">Welcome, <span class="text-gold">New Partner</span></h2><p class="text-slate-400">Your global registry account is currently in <span class="text-gold font-bold">Pending Verification</span> mode.</p></div>
-            <div class="grid md:grid-cols-2 gap-10">
-                <div class="card-luxury p-10"><h3 class="font-bold mb-4">Onboarding Steps</h3><ul class="space-y-4 text-sm"><li class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-green-500"></i> Account Created</li><li class="flex items-center gap-3"><i class="fa-solid fa-circle text-slate-200"></i> Verify Email Address</li></ul></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- HOME / TRACKING (With Welcome Word) -->
-    <section id="home" class="active pt-32 pb-20">
-        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center mb-20">
-            <div>
-                <!-- WELCOME WORD (As Requested) -->
-                <p class="text-[#d4af37] font-bold tracking-[4px] text-xs uppercase mb-2">Welcome to our official website</p>
-                <h1 class="serif text-6xl mb-6 leading-tight">Global Logistics <br><span class="italic text-[#d4af37]">Simplified.</span></h1>
-                <div class="flex bg-white p-2 rounded-2xl shadow-2xl border border-slate-200">
-                    <input id="trackInput" type="text" placeholder="Tracking ID (JL-901)" class="w-full px-6 py-4 outline-none text-lg">
-                    <button onclick="backend.track()" class="bg-[#0f172a] text-white px-10 py-4 rounded-xl font-bold hover:bg-[#d4af37] transition uppercase text-xs tracking-widest">Track</button>
+    <!-- Impact Section -->
+    <section class="impact">
+        <div class="container">
+            <h2 class="section-title">OUR IMPACT</h2>
+            <div class="impact-grid">
+                <div class="impact-item">
+                    <h3>35</h3>
+                    <h4>Years Moving Pets</h4>
+                    <p>IPATA Member since 1990</p>
+                </div>
+                <div class="impact-item">
+                    <h3>12,500</h3>
+                    <h4>Pets Moved</h4>
+                    <p>Across 150+ destinations</p>
+                </div>
+                <div class="impact-item">
+                    <h3>4.8</h3>
+                    <h4>Review Average</h4>
+                    <p>Over 550 five-star review average</p>
                 </div>
             </div>
-            <div class="relative grid grid-cols-2 gap-4">
-                <img src="https://images.unsplash.com/photo-1570710891163-6d3b5c47248b?auto=format&fit=crop&w=600&q=80" class="rounded-[40px] shadow-2xl mt-12">
-                <img src="https://images.unsplash.com/photo-1494412574743-01927215e8b9?auto=format&fit=crop&w=600&q=80" class="rounded-[40px] shadow-2xl">
-            </div>
         </div>
-        <div id="trackResult" class="max-w-5xl mx-auto px-6 hidden"><div class="card-luxury p-12 relative overflow-hidden border-t-8 border-[#d4af37]"><h2 id="displayID" class="text-4xl font-bold mb-8"></h2><div id="historyLog"></div></div></div>
     </section>
 
-    <!-- SERVICES (With Official Flags) -->
-    <section id="services" class="pt-32 pb-20 px-8">
-        <div class="max-w-7xl mx-auto">
-            <h2 class="serif text-5xl mb-4 text-center">Global <span class="text-[#d4af37]">Network</span></h2>
-            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4 mb-20">
-                <!-- OFFICIAL FLAGS (As Requested) -->
-                <div class="country-pill"><img src="https://flagcdn.com/w40/ar.png" width="20"> Argentina</div>
-                <div class="country-pill"><img src="https://flagcdn.com/w40/br.png" width="20"> Brazil</div>
-                <div class="country-pill"><img src="https://flagcdn.com/w40/ca.png" width="20"> Canada</div>
-                <div class="country-pill"><img src="https://flagcdn.com/w40/cl.png" width="20"> Chile</div>
-                <div class="country-pill"><img src="https://flagcdn.com/w40/co.png" width="20"> Colombia</div>
-                <div class="country-pill"><img src="https://flagcdn.com/w40/es.png" width="20"> Spain</div>
-                <div class="country-pill"><img src="https://flagcdn.com/w40/fr.png" width="20"> France</div>
-                <div class="country-pill"><img src="https://flagcdn.com/w40/gt.png" width="20"> Guatemala</div>
-                <div class="country-pill"><img src="https://flagcdn.com/w40/in.png" width="20"> India</div>
-                <div class="country-pill"><img src="https://flagcdn.com/w40/it.png" width="20"> Italy</div>
-                <div class="country-pill"><img src="https://flagcdn.com/w40/mx.png" width="20"> Mexico</div>
-                <div class="country-pill"><img src="https://flagcdn.com/w40/us.png" width="20"> USA</div>
-                <div class="country-pill"><img src="https://flagcdn.com/w40/pr.png" width="20"> Puerto Rico</div>
-            </div>
-            <div class="grid md:grid-cols-3 gap-8 mb-20">
-                <div class="card-luxury p-10 border-b-4 border-blue-500"><h3 class="font-bold mb-4">Local Shipments</h3><p class="text-slate-500 text-xs">Same-day intra-city express transport for time-sensitive assets.</p></div>
-                <div class="card-luxury p-10 border-b-4 border-amber-500"><h3 class="font-bold mb-4">Domestic Shipments</h3><p class="text-slate-500 text-xs">Nationwide logistics covering state-to-state freight.</p></div>
-                <div class="card-luxury p-10 border-b-4 border-[#d4af37]"><h3 class="font-bold mb-4">International Shipments</h3><p class="text-slate-500 text-xs">Global air and sea freight with full customs brokerage.</p></div>
+    <!-- Expert Care Section -->
+    <section class="expert-care">
+        <div class="container">
+            <h2 class="section-title">EXPERT CARE THAT TRAVELS THE DISTANCE</h2>
+            <div class="features-list">
+                <div class="feature">
+                    <i class="fa-solid fa-award"></i>
+                    <h3>Trusted Experience Since 1990</h3>
+                    <p>Over three decades of safe, reliable pet relocations across the U.S. and worldwide — backed by a fun, professional team that truly loves canines and other animals.</p>
+                </div>
+                <div class="feature">
+                    <i class="fa-solid fa-map-location-dot"></i>
+                    <h3>Customized Pet Travel Plans</h3>
+                    <p>Regardless of where you're going or what methods of pet transport you choose, we tailor every detail to your pet's comfort and your relocation needs.</p>
+                </div>
+                <div class="feature">
+                    <i class="fa-solid fa-comment-dots"></i>
+                    <h3>Regular Updates & Real-Time Communication</h3>
+                    <p>We don't just slap on a tracker and tell you to watch an app — we personally keep you informed every step of your cat, canine, or other pet's journey.</p>
+                </div>
+                <div class="feature">
+                    <i class="fa-solid fa-shield-dog"></i>
+                    <h3>Safety & Comfort at Every Step</h3>
+                    <p>From IATA compliant crates to temperature-controlled vehicles and lodging, we make sure every pet we transport is safe and stress-free.</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- REVIEWS (7 Testimonials) -->
-    <section id="reviews" class="pt-32 pb-20 px-8">
-        <div class="max-w-7xl mx-auto text-center">
-            <h2 class="serif text-5xl mb-12">Verified <span class="text-[#d4af37]">Testimonials</span></h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                <div class="card-luxury p-6 text-left"><div class="text-gold text-xs mb-3"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><p class="text-xs italic text-slate-500">"Exceptional tracking precision for our exports to Spain."</p><p class="mt-4 font-bold text-[10px] uppercase">— Aris T.</p></div>
-                <div class="card-luxury p-6 text-left"><div class="text-gold text-xs mb-3"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><p class="text-xs italic text-slate-500">"The fastest courier service in Chile. Reliable and secure."</p><p class="mt-4 font-bold text-[10px] uppercase">— Elena R.</p></div>
-                <div class="card-luxury p-6 text-left"><div class="text-gold text-xs mb-3"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><p class="text-xs italic text-slate-500">"Handled our assets from Canada with absolute care."</p><p class="mt-4 font-bold text-[10px] uppercase">— Marcus V.</p></div>
-                <div class="card-luxury p-6 text-left"><div class="text-gold text-xs mb-3"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><p class="text-xs italic text-slate-500">"Smooth customs clearance in Mexico. Professional team."</p><p class="mt-4 font-bold text-[10px] uppercase">— Julian B.</p></div>
-                <div class="card-luxury p-6 text-left"><div class="text-gold text-xs mb-3"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><p class="text-xs italic text-slate-500">"Excellent domestic coverage in the United States."</p><p class="mt-4 font-bold text-[10px] uppercase">— Sarah J.</p></div>
-                <div class="card-luxury p-6 text-left"><div class="text-gold text-xs mb-3"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><p class="text-xs italic text-slate-500">"Global reach, local expertise. Best in Guatemala."</p><p class="mt-4 font-bold text-[10px] uppercase">— Robert H.</p></div>
-                <div class="card-luxury p-6 text-left"><div class="text-gold text-xs mb-3"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><p class="text-xs italic text-slate-500">"Verified air-freight registry. Totally transparent."</p><p class="mt-4 font-bold text-[10px] uppercase">— Sophia K.</p></div>
+    <!-- Middle CTA Section -->
+    <section class="mid-cta">
+        <div class="cta-image">
+            <img src="https://images.unsplash.com/photo-1542044896530-05d85be9b11a?auto=format&fit=crop&w=800&q=80" alt="Family with dog">
+        </div>
+        <div class="cta-text">
+            <h2>READY FOR YOUR FAMILY'S NEXT ADVENTURE?</h2>
+            <p>Start your free pet relocation plan today!</p>
+            <a href="#" class="btn btn-outline-white">GET AN ESTIMATE</a>
+        </div>
+    </section>
+
+    <!-- Logos Section -->
+    <section class="accreditations">
+        <div class="container flex-center">
+            <img src="images/IPATA.jpg">
+            <img src="images/USDA.jpg">
+            <img src="images/IBPSA.jpg">
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about">
+        <div class="container text-center">
+            <img src="images/AirPets International.jpg">
+            <h2 class="section-title">WHEREVER YOU GO, YOUR PET GOES TOO</h2>
+            <div class="about-text">
+                <p>Pets are more than just animals; they're cherished members of the family. They share in our daily lives, bringing joy, comfort, and companionship... But what happens when you need to move to another state or across the world?</p>
+                <p>As you prepare for your next move, the thought of leaving your pet behind certainly seems unimaginable. Your pet's well-being is a top priority, meaning you want them to travel safely and comfortably, right by your side.</p>
+                <p>At AirPets International, we understand these challenges and are here to assist you with pet shipping every step of the way. Our team handles the complex logistics, including airport transfers, core during delays, and secure lodging...</p>
+            </div>
+            
+            <div class="image-gallery-4">
+                <img src="images/Dog In Water.jpg"Dog in water">
+                <img src="images/Dog Playing.jpg"Dog Playing">
+                <img src="images/Dog In Car.jpg"Dog In Car">
             </div>
         </div>
     </section>
 
-    <!-- HISTORY -->
-    <section id="history" class="pt-32 pb-20 px-8">
-        <div class="max-w-4xl mx-auto">
-            <h2 class="serif text-5xl mb-12 text-center">The JL <span class="text-[#d4af37]">Evolution</span></h2>
-            <div class="space-y-12">
-                <div class="flex gap-8 items-start border-l-4 border-black pl-8 py-4"><div><h4 class="text-2xl font-bold text-navy mb-2 italic">2018: Inception</h4><p class="text-slate-500">Founded as a boutique registry for high-value asset compliance.</p></div></div>
-                <div class="flex gap-8 items-start border-l-4 border-black pl-8 py-4"><div><h4 class="text-2xl font-bold text-navy mb-2 italic">2022: Global Scaling</h4><p class="text-slate-500">Expanded our physical presence into 13 countries across 3 continents.</p></div></div>
-                <div class="flex gap-8 items-start border-l-4 border-black pl-8 py-4"><div><h4 class="text-2xl font-bold text-navy mb-2 italic">2026: Digital Logistics Era</h4><p class="text-slate-500">Today, Jessy Global Logistics is a leading international courier hub with live AI monitoring.</p></div></div>
+    <!-- Services Section -->
+    <section class="services">
+        <div class="container">
+            <h2 class="section-title text-white">OUR PET MOVING SERVICES</h2>
+            <div class="services-grid">
+                <!-- Service 1 -->
+                <div class="service-card">
+                    <img src="images/Domestic Pet Relocation.jpg">
+                    <div class="service-content">
+                        <h3>Domestic Pet Relocation</h3>
+                        <p>Your pet can comfortably travel anywhere in the 48 contiguous United States with us, whether you choose to do so in the air or on the ground.</p>
+                        <a href="#" class="btn btn-outline-dark">DOMESTIC RELOCATION</a>
+                    </div>
+                </div>
+                <!-- Service 2 -->
+                <div class="service-card">
+                    <img src="images/International Pet Relocation.jpg"International">
+                    <div class="service-content">
+                        <h3>International Pet Relocation</h3>
+                        <p>Relocating your pet to another country requires lots of leg work. We handle as much of the process as you want it, from door to door or airport to airport.</p>
+                        <a href="#" class="btn btn-outline-dark">INTERNATIONAL RELOCATION</a>
+                    </div>
+                </div>
+                <!-- Service 3 -->
+                <div class="service-card">
+                    <img src="../UK BTC/images/Pet Ground Transportation.jpg"Ground Transport">
+                    <div class="service-content">
+                        <h3>Pet Ground Transportation</h3>
+                        <p>Our climate-controlled vehicles can move pets of any size from one destination to the next, from home to the airport, or from one state to another.</p>
+                        <a href="#" class="btn btn-outline-dark">GROUND TRANSPORTATION</a>
+                    </div>
+                </div>
+                <!-- Service 4 -->
+                <div class="service-card">
+                    <img src="images/Pet Taxi Services.jpg"Taxi Service">
+                    <div class="service-content">
+                        <h3>Pet Taxi Services</h3>
+                        <p>For residents in the Dallas Fort Worth metroplex, pet taxi services can help you transport pets to the vet, groomer, or other destination anywhere in our service area.</p>
+                        <a href="#" class="btn btn-outline-dark">DFW PET TAXI</a>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <a href="#" class="btn btn-primary btn-white-bg">EXPLORE ALL SERVICES <i class="fa-solid fa-arrow-right"></i></a>
             </div>
         </div>
     </section>
 
-    <!-- FOOTER -->
-    <footer class="bg-[#000] pt-16 pb-12 px-8 text-white border-t border-white/10">
-        <div class="max-w-6xl mx-auto text-center">
-            <div class="flex justify-center items-center mb-6">
-                <!-- B&W Circular Logo -->
-                <div class="jl-monogram">JL</div>
-                <p class="text-xl font-bold tracking-[2px] uppercase">JESSY<span class="text-[#d4af37]">LOGISTICS</span></p>
+    <!-- Steps Section -->
+    <section class="steps">
+        <div class="container">
+            <h2 class="section-title">THREE SIMPLE STEPS TO A SAFE, SEAMLESS PET MOVE</h2>
+            <div class="text-center mb-4">
+                <a href="#" class="btn btn-primary">REQUEST AN ESTIMATE <i class="fa-solid fa-arrow-right"></i></a>
             </div>
-            <p class="text-slate-500 text-[10px] mb-12 max-w-2xl mx-auto italic">© 2026 JESSY LOGISTICS® GROUP. INTERNATIONAL MARITIME & AIR COMPLIANCE SECURED. EST 2018.</p>
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-10 text-left border-t border-white/10 pt-12">
-                <div><span class="footer-grid-title">Our Evolution</span><p class="text-slate-400 text-[11px]">Since 2018, we have evolved from a local registry into a global courier force.</p></div>
-                <div><span class="footer-grid-title">Elite Reviews</span><p class="text-slate-400 text-[11px]">"Unmatched reliability." - Sarah J., USA Hub.</p></div>
-                <div><span class="footer-grid-title">Refund & Legal</span><p class="text-slate-400 text-[11px]">Full insurance coverage on all verified transit assets.</p></div>
-                <div><span class="footer-grid-title">Support Hub</span><div class="flex space-x-4"><a href="mailto:jessywells142@gmail.com" class="text-slate-400 hover:text-[#d4af37]"><i class="fa-solid fa-envelope text-lg"></i></a><a href="https://wa.me/16675129825" class="text-slate-400 hover:text-[#25D366]"><i class="fa-brands fa-whatsapp text-lg"></i></a></div></div>
+            
+            <div class="steps-layout">
+                <div class="steps-cta">
+                    <img src="images/Dog In Car.jpg" alt="Dog">
+                    <div class="steps-cta-text">
+                        <h2>YOUR PET'S JOURNEY STARTS WITH A PLAN</h2>
+                        <p>Let our pet relocation experts craft a safe, stress-free transportation plan for your dog, cat, or other companion creature.</p>
+                        <a href="#" class="btn btn-outline-white">GET AN ESTIMATE</a>
+                    </div>
+                </div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-icon"><i class="fa-solid fa-phone"></i></div>
+                        <div class="timeline-content">
+                            <h4>STEP 1</h4>
+                            <h3>Start with a Custom Quote</h3>
+                            <p>Tell us about your pet, timeline, and destination using our Free Instant Estimate form. A Pet Travel Advisor reviews the details and builds a package tailored to your destination and your pet's needs.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-icon"><i class="fa-solid fa-clipboard-list"></i></div>
+                        <div class="timeline-content">
+                            <h4>STEP 2</h4>
+                            <h3>Prepare With Your Relocation Specialist</h3>
+                            <p>We guide you through documents and vet requirements, size the right IATA-compliant crate, and map the best route. For international moves, we handle country-specific rules, import permits, and timing.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-icon"><i class="fa-solid fa-plane-departure"></i></div>
+                        <div class="timeline-content">
+                            <h4>STEP 3</h4>
+                            <h3>Travel Day, Handled End-to-End</h3>
+                            <p>Choose door-to-door or airport services. Our team manages check-ins, transfers, and care along the way—and keeps you updated until your pet is safely home.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="map-section">
+        <div class="container text-center">
+            <h2 class="section-title text-white">WHERE IS YOUR PET TRAVELING TO?</h2>
+            <p class="text-white">See some of our more popular locations below!</p>
+            
+            <div class="map-container">
+                <!-- SVG Vector Map Graphic (Simplified as an image placeholder for structure, but with absolute dots) -->
+                <img src="https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution.svg" alt="World Map" class="world-map">
+                
+                <!-- Map Hover Points -->
+                <div class="map-dot" style="top: 30%; left: 20%;">
+                    <span class="dot-label">North America</span>
+                </div>
+                <div class="map-dot" style="top: 55%; left: 25%;">
+                    <span class="dot-label">Latin America</span>
+                </div>
+                <div class="map-dot" style="top: 35%; left: 50%;">
+                    <span class="dot-label">Europe</span>
+                    <!-- Hover Tooltip -->
+                    <div class="map-tooltip">
+                        <h4>Top Relocation Destinations</h4>
+                        <ul>
+                            <li>Denmark</li>
+                            <li>Finland</li>
+                            <li>France</li>
+                            <li>Germany</li>
+                            <li>Ireland</li>
+                            <li>Netherlands</li>
+                            <li>Scotland</li>
+                            <li>Spain</li>
+                            <li>United Kingdom</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="map-dot" style="top: 45%; left: 60%;">
+                    <span class="dot-label">Middle East</span>
+                </div>
+                <div class="map-dot" style="top: 40%; left: 75%;">
+                    <span class="dot-label">Asia</span>
+                </div>
+                <div class="map-dot" style="top: 75%; left: 85%;">
+                    <span class="dot-label">Oceania</span>
+                </div>
+            </div>
+            
+            <a href="#" class="btn btn-primary mt-4">WE FLY EVERYWHERE. VIEW OUR FULL REGIONS LIST! <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+    </section>
+
+    <!-- Animals Section -->
+    <section class="animals">
+        <div class="container text-center">
+            <h2 class="section-title">WE MOVE MANY TYPES OF PETS, BIG OR SMALL</h2>
+            <p class="animals-subtext">From cuddly canines to rare reptiles, our team has decades of experience coordinating safe and stress-free transportation for animals of all kinds...</p>
+            
+            <div class="animals-grid">
+                <img src="Images/Dog.jpg">
+                <img src="images/Cat.jpg">
+                <img src="images/Hedgehog.jpg">
+                <img src="images/Iguana.jpg">
+                <img src="images/Lizard.jpg">
+                <img src="images/Rabbit.jpg">
+                <img src="images/Rat.jpg">
+                <img src="images/Snake.jpg">
+                <img src="images/Turtle.jpg">
+            </div>
+            
+            <p class="mt-4">Have another pet in mind? <a href="#" style="color: #ce2029;">Contact us!</a></p>
+        </div>
+    </section>
+
+    <!-- Bottom CTA -->
+    <section class="bottom-cta">
+        <div class="container text-center">
+            <h2 class="text-white">HAPPY TRAVELERS</h2>
+            <p class="text-white mb-4">Don't just take our word for it, checkout what all of these happy pet owners have to say about their pet shipping experience with AirPets International.</p>
+            <a href="#" class="btn btn-primary btn-red">GET STARTED <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+    </section>
+
+    <!-- Airlines Marquee -->
+    <div class="airlines">
+        <div class="container flex-center">
+            <img src="https://via.placeholder.com/120x40/ffffff/000000?text=Qatar" alt="Airline">
+            <img src="https://via.placeholder.com/120x40/ffffff/000000?text=Singapore" alt="Airline">
+            <img src="https://via.placeholder.com/120x40/ffffff/000000?text=TAP" alt="Airline">
+            <img src="https://via.placeholder.com/120x40/ffffff/000000?text=Turkish" alt="Airline">
+            <img src="https://via.placeholder.com/120x40/ffffff/000000?text=Volaris" alt="Airline">
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container text-center">
+            <img src="https://via.placeholder.com/150x60/333333/ffffff?text=AirPets+Logo" alt="AirPets Logo" class="footer-logo">
+            <div class="social-links">
+                <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#"><i class="fa-brands fa-youtube"></i></a>
+            </div>
+            
+            <div class="footer-grid">
+                <div class="footer-links text-left">
+                    <h3>LINKS</h3>
+                    <ul>
+                        <li><a href="#">ABOUT US</a></li>
+                        <li><a href="#">SERVICES</a></li>
+                        <li><a href="#">CONTACT US</a></li>
+                        <li><a href="#">PRIVACY POLICY</a></li>
+                    </ul>
+                    <p class="phone">1 (866) 738-7447</p>
+                    <a href="#" class="btn btn-primary btn-red btn-small">GET MY FREE ESTIMATE <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="footer-newsletter text-left">
+                    <h3>Stay In Touch</h3>
+                    <p>Sign up for our newsletter and get pawsome news, blogs, and updates delivered to your inbox every month.</p>
+                    <a href="#" class="btn btn-outline-white">SIGN UP FOR OUR NEWSLETTER <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+            </div>
+            
+            <div class="copyright text-left">
+                <p>Copyright All Rights Reserved © 2026 AirPets International</p>
+                <p class="disclaimer">We would like to warn our clients about pet scams. If someone has reached out to you claiming to be from Airpets International...</p>
             </div>
         </div>
     </footer>
 
-    <script>
-        const backend = {
-            db: [{ id: "JL-901", status: 1, loc: "Global Hub" }],
-            track: function() {
-                const id = document.getElementById('trackInput').value.toUpperCase();
-                const order = this.db.find(o => o.id === id);
-                if (order) { document.getElementById('trackResult').classList.remove('hidden'); document.getElementById('displayID').innerText = order.id; window.scrollTo(0, document.getElementById('trackResult').offsetTop - 100); }
-                else { alert("ID Not Found."); }
-            }
-        };
-        function toggleChat() { const chat = document.getElementById('live-chat-window'); chat.style.display = chat.style.display === 'flex' ? 'none' : 'flex'; }
-        function sendMessage() {
-            const input = document.getElementById('userInput'); const box = document.getElementById('chatBox');
-            if(!input.value) return;
-            box.innerHTML += `<div class="user-msg">${input.value}</div>`; const msg = input.value; input.value = "";
-            setTimeout(() => {
-                box.innerHTML += `<div class="bot-msg">Agent reviewing. Sync to WhatsApp for assistance.</div>`;
-                document.getElementById('waLink').href = `https://wa.me/16675129825?text=Inquiry:%20${encodeURIComponent(msg)}`;
-                box.scrollTop = box.scrollHeight;
-            }, 1000);
-        }
-        function login(type) { document.getElementById('authButtons').classList.add('hidden'); document.getElementById('userProfile').classList.remove('hidden'); showSection(type === 'new' ? 'signup-dash' : 'login-dash'); }
-        function logout() { document.getElementById('authButtons').classList.remove('hidden'); document.getElementById('userProfile').classList.add('hidden'); showSection('home'); }
-        function showSection(id) { document.querySelectorAll('section').forEach(s => s.classList.remove('active')); document.getElementById(id).classList.add('active'); window.scrollTo(0,0); }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>

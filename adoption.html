@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en" style="scroll-behavior: smooth;"> <!-- Added smooth scroll behavior -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Pets | Premium Adoption & Sale Registry</title>
+    <meta name="description" content="Discover premium pets for adoption and sale. From elite canine bloodlines to exotic birds and luxury livestock. Health checked and microchipped.">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Scripts & Frameworks -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+    <style>
+        [x-cloak] { display: none !important; }
+        body { font-family: 'Inter', sans-serif; background-color: #fcfcfc; color: #1a1a1a; }
+        .serif { font-family: 'Playfair Display', serif; }
+        .luxury-shadow { box-shadow: 0 20px 50px rgba(0,0,0,0.05); }
+        .gradient-overlay { background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 100%); }
+        .card-hover:hover { transform: translateY(-8px); border-color: #d4af37; }
+        .trust-badge { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; }
+        input:focus, select:focus { outline: none; border-color: #d4af37; ring: 1px; ring-color: #d4af37; }
+    </style>
+</head>
+<body x-data="petRegistry()">
+
+    <!-- Header / Navigation -->
+    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100 py-4">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="w-10 h-10 bg-black rounded-full flex items-center justify-center">
+                    <i data-lucide="paw-print" class="text-white w-6 h-6"></i>
+                </div>
+                <span class="serif text-2xl font-bold tracking-tighter">ELITE PETS</span>
+            </div>
+            <!-- Modified Navigation Items -->
+            <div class="hidden md:flex space-x-8 text-sm font-semibold uppercase tracking-widest">
+                <a href="#browse" 
+                   @click="activeMenu = 'registry'" 
+                   :class="activeMenu === 'registry' ? 'text-amber-600' : 'text-gray-600'" 
+                   class="hover:text-amber-600 transition">Our Registry</a>
+                
+                <a href="#standards" 
+                   @click="activeMenu = 'standards'" 
+                   :class="activeMenu === 'standards' ? 'text-amber-600' : 'text-gray-600'" 
+                   class="hover:text-amber-600 transition">Healthy Standards</a>
+                
+                <a href="#contact" 
+                   @click="activeMenu = 'contact'" 
+                   :class="activeMenu === 'contact' ? 'text-amber-600' : 'text-gray-600'" 
+                   class="hover:text-amber-600 transition">Contact</a>
+            </div>
+            <a href="tel:+123456789" class="bg-black text-white px-6 py-2 rounded-full text-xs font-bold hover:bg-amber-600 transition uppercase tracking-widest">
+                Call Concierge
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative bg-neutral-900 text-white py-24 lg:py-32 overflow-hidden">
+        <div class="absolute inset-0 opacity-40">
+            <img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&q=80&w=2000" class="w-full h-full object-cover" alt="Luxury Pets">
+        </div>
+        <div class="container mx-auto px-6 relative z-10 text-center">
+            <h1 class="serif text-5xl md:text-7xl mb-6 animate__animated animate__fadeInDown">Available Pets for <br><span class="text-amber-500 italic">Adoption and Sale</span></h1>
+            <p class="max-w-2xl mx-auto text-gray-300 text-lg md:text-xl font-light leading-relaxed mb-10">
+                Welcome to our curated collection of extraordinary companions. Whether you seek a pedigree protector or a gentle indoor friend, each animal in our care represents the pinnacle of health and temperament.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                <a href="#browse" class="bg-amber-600 text-white px-10 py-4 rounded-xl font-bold hover:bg-amber-700 transition">Explore Registry</a>
+                <a href="mailto:airpetinternationalbooking@gmail.com" class="bg-white text-black px-10 py-4 rounded-xl font-bold hover:bg-gray-100 transition">Inquire for Private Booking</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Filters & Search Section -->
+    <section id="browse" class="container mx-auto px-6 -mt-10 relative z-20">
+        <div class="bg-white p-6 rounded-3xl luxury-shadow border border-gray-100">
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
+                <!-- Search -->
+                <div class="relative lg:col-span-1">
+                    <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5"></i>
+                    <input type="text" x-model="searchQuery" placeholder="Search breed or name..." class="w-full pl-12 pr-4 py-4 bg-gray-50 border-transparent rounded-2xl focus:bg-white border-2">
+                </div>
+                <!-- Category Filter -->
+                <div class="lg:col-span-1">
+                    <select x-model="selectedType" class="w-full px-4 py-4 bg-gray-50 border-transparent rounded-2xl focus:bg-white border-2 font-medium">
+                        <option value="">All Species</option>
+                        <option value="Dog">Canines (Dogs)</option>
+                        <option value="Cat">Felines (Cats)</option>
+                        <option value="Exotic">Exotics & Small Pets</option>
+                        <option value="Bird">Aviary (Birds)</option>
+                        <option value="Livestock">Luxury Livestock</option>
+                    </select>
+                </div>
+                <!-- Status Filter -->
+                <div class="lg:col-span-1">
+                    <select x-model="selectedStatus" class="w-full px-4 py-4 bg-gray-50 border-transparent rounded-2xl focus:bg-white border-2 font-medium">
+                        <option value="">All Availability</option>
+                        <option value="Sale">Available for Sale</option>
+                        <option value="Adoption">Open for Adoption</option>
+                    </select>
+                </div>
+                <!-- Reset -->
+                <button @click="resetFilters()" class="lg:col-span-1 flex items-center justify-center space-x-2 text-gray-500 hover:text-amber-600 transition font-bold uppercase text-xs tracking-widest">
+                    <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+                    <span>Clear Registry Filters</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Pet Grid -->
+    <main class="container mx-auto px-6 py-16">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-12">
+            <div>
+                <p class="text-amber-600 font-bold tracking-widest text-xs uppercase mb-2">Live Registry</p>
+                <h2 class="serif text-4xl font-bold">The Collection</h2>
+            </div>
+            <p class="text-gray-400 text-sm italic mt-4 md:mt-0" x-text="`${filteredPets.length} companions found matching your criteria`"></p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <template x-for="pet in filteredPets" :key="pet.id">
+                <div class="group bg-white rounded-[2rem] overflow-hidden border border-gray-100 luxury-shadow card-hover transition-all duration-500 flex flex-col">
+                    <!-- Image Area -->
+                    <div class="relative h-72 overflow-hidden">
+                        <img :src="pet.image" :alt="pet.name" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute top-4 left-4 flex flex-col space-y-2">
+                            <span :class="pet.status === 'Sale' ? 'bg-black' : 'bg-amber-600'" class="text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-tighter" x-text="pet.status === 'Sale' ? 'Exclusive Sale' : 'Open Adoption'"></span>
+                        </div>
+                        <div class="absolute bottom-4 right-4">
+                            <span class="bg-white/90 backdrop-blur-sm text-black px-4 py-1 rounded-lg font-bold text-sm" x-text="pet.price"></span>
+                        </div>
+                        <div class="absolute inset-0 gradient-overlay opacity-40"></div>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="p-8 flex-grow flex flex-col">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="serif text-2xl font-bold mb-1" x-text="pet.name"></h3>
+                                <p class="text-amber-600 text-sm font-semibold" x-text="pet.breed"></p>
+                            </div>
+                            <div class="flex space-x-1">
+                                <template x-if="pet.isHealthChecked">
+                                    <div class="group/tip relative">
+                                        <i data-lucide="shield-check" class="text-green-500 w-5 h-5"></i>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-2 mb-6">
+                            <div class="bg-gray-50 p-2 rounded-xl text-center">
+                                <p class="text-[10px] text-gray-400 uppercase font-bold">Age</p>
+                                <p class="text-xs font-bold" x-text="pet.age"></p>
+                            </div>
+                            <div class="bg-gray-50 p-2 rounded-xl text-center">
+                                <p class="text-[10px] text-gray-400 uppercase font-bold">Gender</p>
+                                <p class="text-xs font-bold" x-text="pet.gender"></p>
+                            </div>
+                            <div class="bg-gray-50 p-2 rounded-xl text-center">
+                                <p class="text-[10px] text-gray-400 uppercase font-bold">Location</p>
+                                <p class="text-xs font-bold" x-text="pet.location"></p>
+                            </div>
+                        </div>
+
+                        <p class="text-gray-500 text-sm mb-6 line-clamp-2" x-text="pet.description"></p>
+
+                        <!-- Trust Badges -->
+                        <div class="flex flex-wrap gap-2 mb-8">
+                            <template x-for="badge in pet.trustBadges">
+                                <span class="trust-badge bg-amber-50 text-amber-700 px-2 py-1 rounded flex items-center">
+                                    <i data-lucide="check" class="w-3 h-3 mr-1"></i>
+                                    <span x-text="badge"></span>
+                                </span>
+                            </template>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="mt-auto space-y-3">
+                            <div class="flex space-x-2">
+                                <a :href="'mailto:airpetinternationalbooking@gmail.com?subject=Inquiry: ' + pet.name" class="flex-1 bg-black text-white text-center py-3 rounded-xl text-xs font-bold hover:bg-neutral-800 transition uppercase tracking-widest">
+                                    <i data-lucide="mail" class="w-4 h-4 inline-block mr-2 -mt-1"></i> Email Us
+                                </a>
+                                <a href="tel:+123456789" class="flex-1 border-2 border-black text-black text-center py-3 rounded-xl text-xs font-bold hover:bg-gray-50 transition uppercase tracking-widest">
+                                    <i data-lucide="phone" class="w-4 h-4 inline-block mr-2 -mt-1"></i> Call Now
+                                </a>
+                            </div>
+                            <button class="w-full bg-amber-600 text-white py-4 rounded-xl font-bold hover:bg-amber-700 transition uppercase text-xs tracking-[0.2em]" x-text="pet.status === 'Sale' ? 'Reserve Now' : 'Begin Adoption'"></button>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+
+        <!-- Empty State -->
+        <div x-show="filteredPets.length === 0" class="text-center py-20 animate__animated animate__fadeIn">
+            <i data-lucide="info" class="w-16 h-16 text-gray-200 mx-auto mb-6"></i>
+            <h3 class="serif text-3xl font-bold text-gray-400">No companions match this specific request</h3>
+            <p class="text-gray-500 mt-2">Try adjusting your filters or search for a broader category.</p>
+            <button @click="resetFilters()" class="mt-6 text-amber-600 font-bold uppercase text-sm tracking-widest underline">Reset Registry</button>
+        </div>
+    </main>
+
+    <!-- CORE FEATURES SECTION (Added ID for navigation) -->
+    <section id="standards" class="py-5 bg-white">
+        <div class="container py-5">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold display-6">Global Registry Standards</h2>
+                <p class="text-muted">Safety and comfort built into every mile</p>
+            </div>
+            <div class="row g-4 flex flex-wrap lg:flex-nowrap gap-8">
+                <div class="w-full lg:w-1/3">
+                    <div class="care-card p-8 border border-gray-100 rounded-3xl luxury-shadow bg-white card-hover transition-all duration-300">
+                        <i data-lucide="map-pin" class="text-amber-600 w-10 h-10 mb-6"></i>
+                        <h5 class="serif text-xl font-bold mb-3">Customized Pet Travel Plans</h5>
+                        <p class="small text-muted leading-relaxed">Every pet is unique. We build bespoke itineraries that match your pet's health requirements and your destination's legal registry.</p>
+                    </div>
+                </div>
+                <div class="w-full lg:w-1/3">
+                    <div class="care-card p-8 border border-gray-100 rounded-3xl luxury-shadow bg-white card-hover transition-all duration-300">
+                        <i data-lucide="activity" class="text-amber-600 w-10 h-10 mb-6"></i>
+                        <h5 class="serif text-xl font-bold mb-3">Real-Time Communication</h5>
+                        <p class="small text-muted leading-relaxed">Receive regular photo updates and GPS tracking nodes so you know exactly where your family member is at all times.</p>
+                    </div>
+                </div>
+                <div class="w-full lg:w-1/3">
+                    <div class="care-card p-8 border border-gray-100 rounded-3xl luxury-shadow bg-white card-hover transition-all duration-300">
+                        <i data-lucide="heart" class="text-amber-600 w-10 h-10 mb-6"></i>
+                        <h5 class="serif text-xl font-bold mb-3">Safety & Comfort First</h5>
+                        <p class="small text-muted leading-relaxed">Climate-controlled transit environments and specialized hydration protocols ensure a stress-free journey.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="bg-neutral-50 py-24">
+        <div class="container mx-auto px-6">
+            <div class="max-w-3xl mx-auto">
+                <h2 class="serif text-4xl text-center mb-16">Frequently Asked <span class="text-amber-600">Questions</span></h2>
+                <div class="space-y-4">
+                    <template x-for="(faq, index) in faqs" :key="index">
+                        <div class="bg-white rounded-2xl luxury-shadow">
+                            <button @click="faq.open = !faq.open" class="w-full px-8 py-6 text-left flex justify-between items-center">
+                                <span class="font-bold text-gray-700" x-text="faq.q"></span>
+                                <i :data-lucide="faq.open ? 'minus' : 'plus'" class="w-5 h-5 text-amber-600"></i>
+                            </button>
+                            <div x-show="faq.open" x-transition class="px-8 pb-6 text-gray-500 text-sm leading-relaxed" x-text="faq.a"></div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contact" class="container mx-auto px-6 py-24 text-center">
+        <div class="bg-black rounded-[3rem] p-12 lg:p-20 relative overflow-hidden text-white">
+            <div class="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-amber-600/20 rounded-full blur-3xl"></div>
+            <div class="relative z-10">
+                <h2 class="serif text-white text-4xl md:text-6xl mb-6">Didn't find your <br>perfect companion?</h2>
+                <p class="text-gray-400 text-lg mb-10 max-w-xl mx-auto">Our global network allows us to source specific breeds and provide bespoke relocation services for living assets.</p>
+                <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6">
+                    <a href="mailto:airpetinternationalbooking@gmail.com" class="inline-block bg-amber-600 text-white px-12 py-5 rounded-2xl font-bold hover:bg-amber-700 transition shadow-2xl shadow-amber-600/20 uppercase tracking-widest">Email Experts</a>
+                    <a href="tel:+123456789" class="text-white font-bold uppercase tracking-widest flex items-center hover:text-amber-500 transition">
+                        <i data-lucide="phone-call" class="mr-2"></i> Or Call Directly
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-100 pt-20 pb-10">
+        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
+            <div class="col-span-1 md:col-span-2">
+                <div class="flex items-center space-x-2 mb-6">
+                    <div class="w-8 h-8 bg-black rounded-full flex items-center justify-center">
+                        <i data-lucide="paw-print" class="text-white w-5 h-5"></i>
+                    </div>
+                    <span class="serif text-xl font-bold tracking-tighter">ELITE PETS REGISTRY</span>
+                </div>
+                <p class="text-gray-500 text-sm max-w-sm mb-6">
+                    Official booking and registry services for premium pet relocation and sales. Operating with the highest veterinary standards since 2010.
+                </p>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-400 hover:text-amber-600"><i data-lucide="instagram"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-amber-600"><i data-lucide="facebook"></i></a>
+                </div>
+            </div>
+            <div>
+                <h4 class="font-bold uppercase text-[10px] tracking-[0.2em] mb-6 text-gray-400">Registry Support</h4>
+                <ul class="text-sm space-y-4 font-medium text-gray-600">
+                    <li><a href="#" class="hover:text-amber-600">Global Relocation</a></li>
+                    <li><a href="#" class="hover:text-amber-600">Health Guarantee</a></li>
+                    <li><a href="#" class="hover:text-amber-600">Bloodline Verification</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold uppercase text-[10px] tracking-[0.2em] mb-6 text-gray-400">Direct Inquiries</h4>
+                <ul class="text-sm space-y-4 font-medium text-gray-600">
+                    <li><a href="mailto:airpetinternationalbooking@gmail.com" class="hover:text-amber-600">airpetinternationalbooking@gmail.com</a></li>
+                    <li>+1 (800) ELITE-PETS</li>
+                </ul>
+            </div>
+        </div>
+        <div class="container mx-auto px-6 mt-20 pt-10 border-t border-gray-100 flex flex-col md:flex-row justify-between text-gray-400 text-xs font-bold uppercase tracking-widest">
+            <p>&copy; 2024 Elite Pet International Hub. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function petRegistry() {
+            return {
+                searchQuery: '',
+                selectedType: '',
+                selectedStatus: '',
+                activeMenu: 'registry', // State for the navigation active indicator
+                faqs: [
+                    { q: 'Are all pets health-verified?', a: 'Every companion in our registry undergoes a multi-point veterinary exam, including DNA testing for inherited conditions and full vaccination panels.', open: true },
+                    { q: 'Can you ship pets internationally?', a: 'Yes, we specialize in luxury logistics through Air Pet International Hub, ensuring climate-controlled, door-to-door delivery worldwide.', open: false },
+                    { q: 'What is included in the Pedigree Available status?', a: 'This status confirms the pet is registered with the AKC, UKC, or respective international breed registries with certified 3-generation lineage documents.', open: false }
+                ],
+                pets: [
+                    {
+                        id: 1,
+                        name: "Maximillian",
+                        breed: "Cane Corso",
+                        type: "Dog",
+                        status: "Sale",
+                        age: "4 Months",
+                        gender: "Male",
+                        location: "Texas Registry",
+                        price: "$2,800",
+                        isHealthChecked: true,
+                        trustBadges: ["Pedigree Available", "Vaccinated", "Microchipped"],
+                        description: "An exceptional protector with elite lineage. Highly disciplined and started on basic socialization.",
+                        image: "https://images.unsplash.com/photo-1594943015484-9345e5d36e2f?auto=format&fit=crop&q=80&w=800"
+                    },
+                    {
+                        id: 2,
+                        name: "Cleo",
+                        breed: "Maine Coon",
+                        type: "Cat",
+                        status: "Sale",
+                        age: "6 Months",
+                        gender: "Female",
+                        location: "Florida Registry",
+                        price: "$1,500",
+                        isHealthChecked: true,
+                        trustBadges: ["HCM Screened", "Health Checked"],
+                        description: "A gentle giant feline with a magnificent smoke coat and social personality.",
+                        image: "https://images.unsplash.com/photo-1533743983669-94fa5c4338ec?auto=format&fit=crop&q=80&w=800"
+                    },
+                    {
+                        id: 3,
+                        name: "Aurora",
+                        breed: "Macaw",
+                        type: "Bird",
+                        status: "Adoption",
+                        age: "2 Years",
+                        gender: "Female",
+                        location: "California Center",
+                        price: "Adoptable",
+                        isHealthChecked: true,
+                        trustBadges: ["Vet Verified", "Socialized"],
+                        description: "Vibrant and vocal. Requires an experienced aviary owner. High vocabulary potential.",
+                        image: "https://images.unsplash.com/photo-1552728089-57bdde30fc3b?auto=format&fit=crop&w=800&q=80"
+                    },
+                    {
+                        id: 4,
+                        name: "Thunder",
+                        breed: "Friesian Horse",
+                        type: "Livestock",
+                        status: "Sale",
+                        age: "3 Years",
+                        gender: "Gelding",
+                        location: "Kentucky Ranch",
+                        price: "$12,000",
+                        isHealthChecked: true,
+                        trustBadges: ["Registry Papers", "DNA Certified"],
+                        description: "Stunning movement and temperament. Professional training started.",
+                        image: "https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?auto=format&fit=crop&w=800&q=80"
+                    },
+                    {
+                        id: 5,
+                        name: "Bella",
+                        breed: "French Bulldog",
+                        type: "Dog",
+                        status: "Adoption",
+                        age: "1 Year",
+                        gender: "Female",
+                        location: "NYC Registry",
+                        price: "Adoptable",
+                        isHealthChecked: true,
+                        trustBadges: ["Spayed", "Ready Now"],
+                        description: "Sweet personality and loves city living. Excellent with other small pets.",
+                        image: "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=800&q=80"
+                    },
+                    {
+                        id: 6,
+                        name: "Mochi",
+                        breed: "Llama",
+                        type: "Livestock",
+                        status: "Sale",
+                        age: "1.5 Years",
+                        gender: "Female",
+                        location: "Colorado Ranch",
+                        price: "$3,500",
+                        isHealthChecked: true,
+                        trustBadges: ["Herd Guard Trained"],
+                        description: "Excellent guard animal for hobby farms. Very calm and halter trained.",
+                        image: "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=crop&w=800&q=80"
+                    }
+                ],
+                get filteredPets() {
+                    return this.pets.filter(pet => {
+                        const matchesSearch = pet.name.toLowerCase().includes(this.searchQuery.toLowerCase()) || 
+                                            pet.breed.toLowerCase().includes(this.searchQuery.toLowerCase());
+                        const matchesType = this.selectedType === '' || pet.type === this.selectedType;
+                        const matchesStatus = this.selectedStatus === '' || pet.status === this.selectedStatus;
+                        return matchesSearch && matchesType && matchesStatus;
+                    });
+                },
+                resetFilters() {
+                    this.searchQuery = '';
+                    this.selectedType = '';
+                    this.selectedStatus = '';
+                }
+            }
+        }
+        
+        // Initialize Lucide icons
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>

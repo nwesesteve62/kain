@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JL | Jessy Global Logistics - International Freight Registry</title>
+    
+    <!-- Scripts & Frameworks -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: '#0f172a',
+                        gold: '#d4af37',
+                        slate: '#f8fafc'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        [x-cloak] { display: none !important; }
+        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; color: #0f172a; }
+        .jl-monogram { background: #000; color: #fff; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; border: 2px solid #fff; }
+        .luxury-card { background: white; border-radius: 24px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.05); border: 1px solid rgba(0,0,0,0.02); }
+        .map-grid { background-image: radial-gradient(#cbd5e1 1px, transparent 1px); background-size: 20px 20px; }
+        .pulse-dot { position: relative; width: 12px; height: 12px; background: #d4af37; border-radius: 50%; box-shadow: 0 0 15px #d4af37; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { transform: scale(0.95); opacity: 0.7; } 70% { transform: scale(1.5); opacity: 0; } 100% { transform: scale(0.95); opacity: 0; } }
+    </style>
+</head>
+<body x-data="logisticsApp()" class="overflow-x-hidden">
+
+    <!-- TOP NAVIGATION (UNCHANGED DESIGN) -->
+    <nav class="fixed w-full z-[1000] bg-white/90 backdrop-blur-lg border-b border-slate-200 px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center gap-4">
+            <div class="jl-monogram">JL</div>
+            <a href="#" @click="view = 'customer'" class="text-xl font-bold tracking-tighter uppercase">JESSY<span class="text-gold">LOGISTICS</span></a>
+        </div>
+        
+        <div class="hidden lg:flex space-x-8 text-[10px] font-bold uppercase tracking-widest text-slate-500">
+            <button @click="view = 'customer'" :class="view === 'customer' ? 'text-gold' : ''" class="hover:text-navy transition">Tracking</button>
+            <button @click="view = 'admin'" :class="view === 'admin' ? 'text-gold' : ''" class="hover:text-navy transition">Admin Hub</button>
+            <a href="#support" class="hover:text-navy transition">Support</a>
+        </div>
+
+        <div class="flex items-center gap-4">
+            <div class="flex items-center gap-1 text-green-600 bg-green-50 px-3 py-1 rounded-full text-[9px] font-black uppercase">
+                <i data-lucide="shield-check" class="w-3 h-3"></i> SSL SECURE
+            </div>
+            <button @click="loginModal = true" class="text-navy font-bold text-xs hover:text-gold transition">
+                <i data-lucide="user" class="w-4 h-4 inline mr-1"></i> LOGIN
+            </button>
+        </div>
+    </nav>
+
+    <!-- CUSTOMER TRACKING INTERFACE -->
+    <section x-show="view === 'customer'" x-transition class="pt-32 pb-20 px-6 min-h-screen">
+        <div class="max-w-6xl mx-auto">
+            <!-- Search Bar -->
+            <div class="text-center mb-16">
+                <h1 class="text-5xl font-black tracking-tighter mb-4 animate__animated animate__fadeInDown">Track Your <span class="text-gold">Global Assets</span></h1>
+                <p class="text-slate-400 mb-10 uppercase tracking-widest text-xs font-bold">Real-Time Registry Intelligence</p>
+                
+                <div class="max-w-2xl mx-auto flex bg-white p-2 rounded-[2rem] shadow-2xl border border-slate-200">
+                    <input type="text" x-model="searchId" placeholder="Enter Tracking ID (e.g. JL-901)" class="w-full px-6 py-4 outline-none text-lg rounded-l-full">
+                    <button @click="performTrack()" class="bg-navy text-white px-10 py-4 rounded-full font-bold hover:bg-gold transition-all transform active:scale-95 uppercase text-sm tracking-widest">
+                        Track
+                    </button>
+                </div>
+            </div>
+
+            <!-- RESULTS (Show if ID is valid) -->
+            <div x-show="isTracking" x-cloak class="grid lg:grid-cols-3 gap-8 animate__animated animate__fadeInUp">
+                
+                <!-- Left: Timeline & Status -->
+                <div class="lg:col-span-2 space-y-8">
+                    <div class="luxury-card p-10">
+                        <div class="flex justify-between items-start mb-10">
+                            <div>
+                                <p class="text-[10px] font-black text-gold uppercase tracking-widest mb-1">Current Status</p>
+                                <h2 class="text-3xl font-bold" x-text="activeOrder.statusText"></h2>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Est. Delivery</p>
+                                <p class="text-xl font-bold" x-text="activeOrder.estDate"></p>
+                            </div>
+                        </div>
+
+                        <!-- Timeline -->
+                        <div class="relative pl-8 border-l-2 border-slate-100 space-y-12">
+                            <template x-for="(event, index) in activeOrder.history" :key="index">
+                                <div class="relative">
+                                    <div class="absolute -left-11 top-1 w-6 h-6 rounded-full border-4 border-white flex items-center justify-center" :class="index === 0 ? 'bg-gold shadow-lg shadow-gold/50' : 'bg-slate-200'">
+                                        <i data-lucide="check" x-show="index !== 0" class="w-3 h-3 text-white"></i>
+                                    </div>
+                                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-tighter" x-text="event.time"></p>
+                                    <h4 class="font-bold text-navy" x-text="event.title"></h4>
+                                    <p class="text-xs text-slate-500 mt-1" x-text="event.desc"></p>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+
+                    <!-- Details Grid -->
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="luxury-card p-8">
+                            <h3 class="font-bold mb-4 flex items-center gap-2"><i data-lucide="package" class="w-4 h-4 text-gold"></i> Shipment Details</h3>
+                            <div class="space-y-3 text-xs">
+                                <div class="flex justify-between border-b pb-2 border-slate-50"><span class="text-slate-400">Weight:</span><span class="font-bold" x-text="activeOrder.weight"></span></div>
+                                <div class="flex justify-between border-b pb-2 border-slate-50"><span class="text-slate-400">Dimensions:</span><span class="font-bold">45x30x20 cm</span></div>
+                                <div class="flex justify-between border-b pb-2 border-slate-50"><span class="text-slate-400">Service:</span><span class="font-bold text-gold">Air Priority Express</span></div>
+                            </div>
+                        </div>
+                        <div class="luxury-card p-8">
+                            <h3 class="font-bold mb-4 flex items-center gap-2"><i data-lucide="qr-code" class="w-4 h-4 text-gold"></i> Digital Label</h3>
+                            <div class="flex justify-center p-4 bg-slate-50 rounded-xl border border-dashed border-slate-200">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg" class="w-20 h-20 opacity-80" alt="Barcode">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Map & Support -->
+                <div class="space-y-8">
+                    <!-- Live Map Simulation -->
+                    <div class="luxury-card h-[400px] overflow-hidden relative map-grid">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                           <div class="pulse-dot"></div>
+                        </div>
+                        <div class="absolute bottom-4 left-4 right-4 bg-white/90 backdrop-blur p-4 rounded-xl shadow-lg border border-slate-100">
+                            <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest">Live GPS Coordinates</p>
+                            <p class="text-xs font-bold font-mono">34.0522° N, 118.2437° W</p>
+                        </div>
+                        <div class="absolute top-4 right-4 bg-navy text-white px-3 py-1 rounded-full text-[9px] font-bold uppercase">Live Signal Active</div>
+                    </div>
+
+                    <!-- Claim/Refund Section -->
+                    <div class="luxury-card p-8 bg-navy text-white">
+                        <h3 class="font-bold mb-4">Insurance & Claims</h3>
+                        <p class="text-xs text-slate-400 mb-6 leading-relaxed">This shipment is insured up to $5,000. In case of delay or damage, file your claim below.</p>
+                        <button @click="refundModal = true" class="w-full bg-gold text-navy py-3 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-white transition">Request Settlement</button>
+                    </div>
+
+                    <!-- Alerts -->
+                    <div x-show="activeOrder.delayed" class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-xl">
+                        <div class="flex gap-3">
+                            <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-500"></i>
+                            <div>
+                                <p class="text-xs font-bold text-amber-800">Transit Delay Alert</p>
+                                <p class="text-[10px] text-amber-600 mt-1">Severe weather conditions at regional hub may impact arrival time.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ADMIN HUB INTERFACE -->
+    <section x-show="view === 'admin'" x-cloak class="pt-32 pb-20 px-6 min-h-screen">
+        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-8">
+            <!-- Sidebar -->
+            <aside class="lg:w-64 space-y-2">
+                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4 px-4">Analytics Engine</p>
+                <button class="w-full text-left px-5 py-3 rounded-xl bg-navy text-white text-xs font-bold flex items-center gap-3">
+                    <i data-lucide="layout-dashboard" class="w-4 h-4"></i> Global Overview
+                </button>
+                <button class="w-full text-left px-5 py-3 rounded-xl hover:bg-white transition text-xs font-bold flex items-center gap-3 text-slate-500">
+                    <i data-lucide="clipboard-list" class="w-4 h-4"></i> Manifests
+                </button>
+                <button class="w-full text-left px-5 py-3 rounded-xl hover:bg-white transition text-xs font-bold flex items-center gap-3 text-slate-500">
+                    <i data-lucide="globe" class="w-4 h-4"></i> Port Management
+                </button>
+            </aside>
+
+            <!-- Main Dashboard Area -->
+            <div class="flex-grow space-y-8">
+                <!-- Stats Row -->
+                <div class="grid md:grid-cols-4 gap-6">
+                    <div class="luxury-card p-6 border-b-4 border-gold">
+                        <p class="text-[10px] font-black text-slate-400 uppercase">In Transit</p>
+                        <h4 class="text-2xl font-black mt-2">1,248</h4>
+                    </div>
+                    <div class="luxury-card p-6">
+                        <p class="text-[10px] font-black text-slate-400 uppercase">Delivered Today</p>
+                        <h4 class="text-2xl font-black mt-2">429</h4>
+                    </div>
+                    <div class="luxury-card p-6">
+                        <p class="text-[10px] font-black text-slate-400 uppercase">Pending Customs</p>
+                        <h4 class="text-2xl font-black mt-2 text-amber-500">14</h4>
+                    </div>
+                    <div class="luxury-card p-6">
+                        <p class="text-[10px] font-black text-slate-400 uppercase">Claims Filed</p>
+                        <h4 class="text-2xl font-black mt-2 text-red-500">02</h4>
+                    </div>
+                </div>
+
+                <!-- Manifest Management -->
+                <div class="luxury-card overflow-hidden">
+                    <div class="p-6 bg-slate-50 border-b flex justify-between items-center">
+                        <h3 class="font-bold text-sm uppercase tracking-widest">Global Asset Registry</h3>
+                        <button class="bg-navy text-white px-4 py-2 rounded-lg text-[10px] font-bold">+ NEW ASSET</button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-slate-50 text-[10px] font-black uppercase text-slate-400">
+                                <tr>
+                                    <th class="px-6 py-4">Reference ID</th>
+                                    <th class="px-6 py-4">Destination</th>
+                                    <th class="px-6 py-4">Current Node</th>
+                                    <th class="px-6 py-4">Security Level</th>
+                                    <th class="px-6 py-4">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100 text-xs">
+                                <template x-for="order in db" :key="order.id">
+                                    <tr class="hover:bg-slate-50 transition">
+                                        <td class="px-6 py-5 font-bold" x-text="order.id"></td>
+                                        <td class="px-6 py-5" x-text="order.dest"></td>
+                                        <td class="px-6 py-5">
+                                            <span class="px-2 py-1 rounded bg-blue-50 text-blue-700 font-bold" x-text="order.loc"></span>
+                                        </td>
+                                        <td class="px-6 py-5"><span class="px-2 py-1 bg-green-50 text-green-700 rounded font-bold uppercase text-[9px]">High Priority</span></td>
+                                        <td class="px-6 py-5">
+                                            <button @click="updateOrder(order.id)" class="text-gold hover:underline font-bold">Update Transit</button>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SETTLEMENT MODAL -->
+    <div x-show="refundModal" x-cloak class="fixed inset-0 z-[2000] flex items-center justify-center p-6">
+        <div class="absolute inset-0 bg-navy/80 backdrop-blur-sm" @click="refundModal = false"></div>
+        <div class="bg-white rounded-3xl w-full max-w-lg relative p-10 shadow-2xl">
+            <h2 class="serif text-3xl font-bold mb-2">Request Settlement</h2>
+            <p class="text-xs text-slate-400 mb-8">Asset Registry Claim ID: <span x-text="activeOrder.id"></span></p>
+            
+            <div class="space-y-4">
+                <input type="text" placeholder="Full Name" class="w-full p-4 bg-slate-50 rounded-xl border border-slate-200 outline-none text-xs">
+                <select class="w-full p-4 bg-slate-50 rounded-xl border border-slate-200 outline-none text-xs">
+                    <option>Transit Damage</option>
+                    <option>Extended Delay</option>
+                    <option>Security Breach</option>
+                </select>
+                <textarea rows="4" placeholder="Briefly describe the claim reason..." class="w-full p-4 bg-slate-50 rounded-xl border border-slate-200 outline-none text-xs"></textarea>
+                <button @click="refundModal = false; alert('Claim successfully registered for analysis.')" class="w-full bg-navy text-white py-4 rounded-xl font-black text-xs uppercase tracking-[4px]">Submit Insurance Claim</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOGIN MODAL -->
+    <div x-show="loginModal" x-cloak class="fixed inset-0 z-[2000] flex items-center justify-center p-6">
+        <div class="absolute inset-0 bg-navy/80 backdrop-blur-sm" @click="loginModal = false"></div>
+        <div class="bg-white rounded-3xl w-full max-w-sm relative p-10 shadow-2xl text-center">
+            <div class="jl-monogram mx-auto mb-6">JL</div>
+            <h2 class="text-xl font-bold mb-8 uppercase tracking-widest">Portal Access</h2>
+            <input type="email" placeholder="Registry Email" class="w-full p-4 bg-slate-100 rounded-xl mb-3 outline-none text-xs">
+            <input type="password" placeholder="Access Key" class="w-full p-4 bg-slate-100 rounded-xl mb-6 outline-none text-xs">
+            <button @click="loginModal = false" class="w-full bg-gold text-navy py-4 rounded-xl font-black text-xs uppercase">Authenticate</button>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-white border-t border-slate-200 py-10 px-8">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">© 2026 Jessy Global Logistics Group. Registry Services Integrated.</p>
+            <div class="flex gap-6">
+                <a href="#" class="text-slate-400 hover:text-gold transition"><i data-lucide="facebook" class="w-4 h-4"></i></a>
+                <a href="#" class="text-slate-400 hover:text-gold transition"><i data-lucide="twitter" class="w-4 h-4"></i></a>
+                <a href="#" class="text-slate-400 hover:text-gold transition"><i data-lucide="linkedin" class="w-4 h-4"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function logisticsApp() {
+            return {
+                view: 'customer',
+                searchId: '',
+                isTracking: false,
+                loginModal: false,
+                refundModal: false,
+                db: [
+                    { 
+                        id: "JL-901", 
+                        dest: "London, UK", 
+                        loc: "Atlantic Hub", 
+                        statusText: "In Transit via Air Freight", 
+                        estDate: "July 12, 2026",
+                        weight: "4.5 KG",
+                        delayed: true,
+                        history: [
+                            { time: "July 08, 2026 - 10:00 AM", title: "Asset Registry Verified", desc: "Package manifest cleared customs at origin port." },
+                            { time: "July 06, 2026 - 04:30 PM", title: "Inbound to Regional Hub", desc: "Asset received at central logistics center." },
+                            { time: "July 05, 2026 - 09:00 AM", title: "Order Placed", desc: "Shipment registered in Global Logistics system." }
+                        ]
+                    },
+                    { id: "JL-842", dest: "New York, USA", loc: "Destination Hub", statusText: "Awaiting Courier Dispatch", estDate: "Today", weight: "2.1 KG", delayed: false, history: [{ time: "July 08, 2026", title: "Arrived at Port", desc: "Cleared destination customs." }] }
+                ],
+                activeOrder: {},
+
+                performTrack() {
+                    const found = this.db.find(o => o.id === this.searchId.toUpperCase());
+                    if (found) {
+                        this.activeOrder = found;
+                        this.isTracking = true;
+                        // Re-initialize icons for new elements
+                        setTimeout(() => lucide.createIcons(), 100);
+                    } else {
+                        alert("ERROR: Asset ID not found in the global registry.");
+                        this.isTracking = false;
+                    }
+                },
+
+                updateOrder(id) {
+                    alert("ADMIN: Status promotion request sent to Logistics Node for " + id);
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>
