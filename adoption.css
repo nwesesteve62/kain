@@ -1,0 +1,10 @@
+
+        [x-cloak] { display: none !important; }
+        body { font-family: 'Inter', sans-serif; background-color: #fcfcfc; color: #1a1a1a; }
+        .serif { font-family: 'Playfair Display', serif; }
+        .luxury-shadow { box-shadow: 0 20px 50px rgba(0,0,0,0.05); }
+        .gradient-overlay { background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 100%); }
+        .card-hover:hover { transform: translateY(-8px); border-color: #d4af37; }
+        .trust-badge { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; }
+        input:focus, select:focus { outline: none; border-color: #d4af37; outline: 1px solid #d4af37; }
+    

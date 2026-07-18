@@ -3,337 +3,1069 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JL | Jessy Global Logistics - International Freight Registry</title>
+    <title>VeloShip | Global Multi-Carrier Shipping & Logistics Platform</title>
+    <meta name="description" content="Connect with over 50+ global carriers, automate your e-commerce fulfillment, compare real-time shipping rates, and save up to 70% on shipping.">
     
-    <!-- Scripts & Frameworks -->
+    <!-- Google Fonts: Plus Jakarta Sans for premium typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS for robust layout and utility styling -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- Lucide Icons for clean, modern vector iconography -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
+    <!-- Tailwind Configuration for customized branding colors -->
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
-                        navy: '#0f172a',
-                        gold: '#d4af37',
-                        slate: '#f8fafc'
-                    }
+                        brand: {
+                            50: '#f0f4ff',
+                            100: '#d9e2ff',
+                            200: '#b8caff',
+                            500: '#3b66f6', // Premium Indigo-Blue Primary
+                            600: '#254adb', // Deep Hover
+                            700: '#1d38b3',
+                            900: '#0f172a', // Dark Slate
+                        },
+                        accent: {
+                            500: '#0ea5e9', // Sky Teal Accent
+                            600: '#0284c7',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
                 }
             }
         }
     </script>
 
+    <!-- Custom CSS (Can be extracted to style.css) -->
     <style>
-        [x-cloak] { display: none !important; }
-        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; color: #0f172a; }
-        .jl-monogram { background: #000; color: #fff; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; border: 2px solid #fff; }
-        .luxury-card { background: white; border-radius: 24px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.05); border: 1px solid rgba(0,0,0,0.02); }
-        .map-grid { background-image: radial-gradient(#cbd5e1 1px, transparent 1px); background-size: 20px 20px; }
-        .pulse-dot { position: relative; width: 12px; height: 12px; background: #d4af37; border-radius: 50%; box-shadow: 0 0 15px #d4af37; animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { transform: scale(0.95); opacity: 0.7; } 70% { transform: scale(1.5); opacity: 0; } 100% { transform: scale(0.95); opacity: 0; } }
-    </style>
-</head>
-<body x-data="logisticsApp()" class="overflow-x-hidden">
+        /* Custom scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
 
-    <!-- TOP NAVIGATION (UNCHANGED DESIGN) -->
-    <nav class="fixed w-full z-[1000] bg-white/90 backdrop-blur-lg border-b border-slate-200 px-6 py-4 flex justify-between items-center">
-        <div class="flex items-center gap-4">
-            <div class="jl-monogram">JL</div>
-            <a href="#" @click="view = 'customer'" class="text-xl font-bold tracking-tighter uppercase">JESSY<span class="text-gold">LOGISTICS</span></a>
-        </div>
-        
-        <div class="hidden lg:flex space-x-8 text-[10px] font-bold uppercase tracking-widest text-slate-500">
-            <button @click="view = 'customer'" :class="view === 'customer' ? 'text-gold' : ''" class="hover:text-navy transition">Tracking</button>
-            <button @click="view = 'admin'" :class="view === 'admin' ? 'text-gold' : ''" class="hover:text-navy transition">Admin Hub</button>
-            <a href="#support" class="hover:text-navy transition">Support</a>
-        </div>
+        /* Modern text selection colors */
+        ::selection {
+            background-color: #3b66f6;
+            color: #ffffff;
+        }
 
-        <div class="flex items-center gap-4">
-            <div class="flex items-center gap-1 text-green-600 bg-green-50 px-3 py-1 rounded-full text-[9px] font-black uppercase">
-                <i data-lucide="shield-check" class="w-3 h-3"></i> SSL SECURE
-            </div>
-            <button @click="loginModal = true" class="text-navy font-bold text-xs hover:text-gold transition">
-                <i data-lucide="user" class="w-4 h-4 inline mr-1"></i> LOGIN
-            </button>
-        </div>
-    </nav>
-
-    <!-- CUSTOMER TRACKING INTERFACE -->
-    <section x-show="view === 'customer'" x-transition class="pt-32 pb-20 px-6 min-h-screen">
-        <div class="max-w-6xl mx-auto">
-            <!-- Search Bar -->
-            <div class="text-center mb-16">
-                <h1 class="text-5xl font-black tracking-tighter mb-4 animate__animated animate__fadeInDown">Track Your <span class="text-gold">Global Assets</span></h1>
-                <p class="text-slate-400 mb-10 uppercase tracking-widest text-xs font-bold">Real-Time Registry Intelligence</p>
-                
-                <div class="max-w-2xl mx-auto flex bg-white p-2 rounded-[2rem] shadow-2xl border border-slate-200">
-                    <input type="text" x-model="searchId" placeholder="Enter Tracking ID (e.g. JL-901)" class="w-full px-6 py-4 outline-none text-lg rounded-l-full">
-                    <button @click="performTrack()" class="bg-navy text-white px-10 py-4 rounded-full font-bold hover:bg-gold transition-all transform active:scale-95 uppercase text-sm tracking-widest">
-                        Track
-                    </button>
-                </div>
-            </div>
-
-            <!-- RESULTS (Show if ID is valid) -->
-            <div x-show="isTracking" x-cloak class="grid lg:grid-cols-3 gap-8 animate__animated animate__fadeInUp">
-                
-                <!-- Left: Timeline & Status -->
-                <div class="lg:col-span-2 space-y-8">
-                    <div class="luxury-card p-10">
-                        <div class="flex justify-between items-start mb-10">
-                            <div>
-                                <p class="text-[10px] font-black text-gold uppercase tracking-widest mb-1">Current Status</p>
-                                <h2 class="text-3xl font-bold" x-text="activeOrder.statusText"></h2>
-                            </div>
-                            <div class="text-right">
-                                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Est. Delivery</p>
-                                <p class="text-xl font-bold" x-text="activeOrder.estDate"></p>
-                            </div>
-                        </div>
-
-                        <!-- Timeline -->
-                        <div class="relative pl-8 border-l-2 border-slate-100 space-y-12">
-                            <template x-for="(event, index) in activeOrder.history" :key="index">
-                                <div class="relative">
-                                    <div class="absolute -left-11 top-1 w-6 h-6 rounded-full border-4 border-white flex items-center justify-center" :class="index === 0 ? 'bg-gold shadow-lg shadow-gold/50' : 'bg-slate-200'">
-                                        <i data-lucide="check" x-show="index !== 0" class="w-3 h-3 text-white"></i>
-                                    </div>
-                                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-tighter" x-text="event.time"></p>
-                                    <h4 class="font-bold text-navy" x-text="event.title"></h4>
-                                    <p class="text-xs text-slate-500 mt-1" x-text="event.desc"></p>
-                                </div>
-                            </template>
-                        </div>
-                    </div>
-
-                    <!-- Details Grid -->
-                    <div class="grid md:grid-cols-2 gap-8">
-                        <div class="luxury-card p-8">
-                            <h3 class="font-bold mb-4 flex items-center gap-2"><i data-lucide="package" class="w-4 h-4 text-gold"></i> Shipment Details</h3>
-                            <div class="space-y-3 text-xs">
-                                <div class="flex justify-between border-b pb-2 border-slate-50"><span class="text-slate-400">Weight:</span><span class="font-bold" x-text="activeOrder.weight"></span></div>
-                                <div class="flex justify-between border-b pb-2 border-slate-50"><span class="text-slate-400">Dimensions:</span><span class="font-bold">45x30x20 cm</span></div>
-                                <div class="flex justify-between border-b pb-2 border-slate-50"><span class="text-slate-400">Service:</span><span class="font-bold text-gold">Air Priority Express</span></div>
-                            </div>
-                        </div>
-                        <div class="luxury-card p-8">
-                            <h3 class="font-bold mb-4 flex items-center gap-2"><i data-lucide="qr-code" class="w-4 h-4 text-gold"></i> Digital Label</h3>
-                            <div class="flex justify-center p-4 bg-slate-50 rounded-xl border border-dashed border-slate-200">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg" class="w-20 h-20 opacity-80" alt="Barcode">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right: Map & Support -->
-                <div class="space-y-8">
-                    <!-- Live Map Simulation -->
-                    <div class="luxury-card h-[400px] overflow-hidden relative map-grid">
-                        <div class="absolute inset-0 flex items-center justify-center">
-                           <div class="pulse-dot"></div>
-                        </div>
-                        <div class="absolute bottom-4 left-4 right-4 bg-white/90 backdrop-blur p-4 rounded-xl shadow-lg border border-slate-100">
-                            <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest">Live GPS Coordinates</p>
-                            <p class="text-xs font-bold font-mono">34.0522° N, 118.2437° W</p>
-                        </div>
-                        <div class="absolute top-4 right-4 bg-navy text-white px-3 py-1 rounded-full text-[9px] font-bold uppercase">Live Signal Active</div>
-                    </div>
-
-                    <!-- Claim/Refund Section -->
-                    <div class="luxury-card p-8 bg-navy text-white">
-                        <h3 class="font-bold mb-4">Insurance & Claims</h3>
-                        <p class="text-xs text-slate-400 mb-6 leading-relaxed">This shipment is insured up to $5,000. In case of delay or damage, file your claim below.</p>
-                        <button @click="refundModal = true" class="w-full bg-gold text-navy py-3 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-white transition">Request Settlement</button>
-                    </div>
-
-                    <!-- Alerts -->
-                    <div x-show="activeOrder.delayed" class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-xl">
-                        <div class="flex gap-3">
-                            <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-500"></i>
-                            <div>
-                                <p class="text-xs font-bold text-amber-800">Transit Delay Alert</p>
-                                <p class="text-[10px] text-amber-600 mt-1">Severe weather conditions at regional hub may impact arrival time.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- ADMIN HUB INTERFACE -->
-    <section x-show="view === 'admin'" x-cloak class="pt-32 pb-20 px-6 min-h-screen">
-        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-8">
-            <!-- Sidebar -->
-            <aside class="lg:w-64 space-y-2">
-                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4 px-4">Analytics Engine</p>
-                <button class="w-full text-left px-5 py-3 rounded-xl bg-navy text-white text-xs font-bold flex items-center gap-3">
-                    <i data-lucide="layout-dashboard" class="w-4 h-4"></i> Global Overview
-                </button>
-                <button class="w-full text-left px-5 py-3 rounded-xl hover:bg-white transition text-xs font-bold flex items-center gap-3 text-slate-500">
-                    <i data-lucide="clipboard-list" class="w-4 h-4"></i> Manifests
-                </button>
-                <button class="w-full text-left px-5 py-3 rounded-xl hover:bg-white transition text-xs font-bold flex items-center gap-3 text-slate-500">
-                    <i data-lucide="globe" class="w-4 h-4"></i> Port Management
-                </button>
-            </aside>
-
-            <!-- Main Dashboard Area -->
-            <div class="flex-grow space-y-8">
-                <!-- Stats Row -->
-                <div class="grid md:grid-cols-4 gap-6">
-                    <div class="luxury-card p-6 border-b-4 border-gold">
-                        <p class="text-[10px] font-black text-slate-400 uppercase">In Transit</p>
-                        <h4 class="text-2xl font-black mt-2">1,248</h4>
-                    </div>
-                    <div class="luxury-card p-6">
-                        <p class="text-[10px] font-black text-slate-400 uppercase">Delivered Today</p>
-                        <h4 class="text-2xl font-black mt-2">429</h4>
-                    </div>
-                    <div class="luxury-card p-6">
-                        <p class="text-[10px] font-black text-slate-400 uppercase">Pending Customs</p>
-                        <h4 class="text-2xl font-black mt-2 text-amber-500">14</h4>
-                    </div>
-                    <div class="luxury-card p-6">
-                        <p class="text-[10px] font-black text-slate-400 uppercase">Claims Filed</p>
-                        <h4 class="text-2xl font-black mt-2 text-red-500">02</h4>
-                    </div>
-                </div>
-
-                <!-- Manifest Management -->
-                <div class="luxury-card overflow-hidden">
-                    <div class="p-6 bg-slate-50 border-b flex justify-between items-center">
-                        <h3 class="font-bold text-sm uppercase tracking-widest">Global Asset Registry</h3>
-                        <button class="bg-navy text-white px-4 py-2 rounded-lg text-[10px] font-bold">+ NEW ASSET</button>
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left">
-                            <thead class="bg-slate-50 text-[10px] font-black uppercase text-slate-400">
-                                <tr>
-                                    <th class="px-6 py-4">Reference ID</th>
-                                    <th class="px-6 py-4">Destination</th>
-                                    <th class="px-6 py-4">Current Node</th>
-                                    <th class="px-6 py-4">Security Level</th>
-                                    <th class="px-6 py-4">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-slate-100 text-xs">
-                                <template x-for="order in db" :key="order.id">
-                                    <tr class="hover:bg-slate-50 transition">
-                                        <td class="px-6 py-5 font-bold" x-text="order.id"></td>
-                                        <td class="px-6 py-5" x-text="order.dest"></td>
-                                        <td class="px-6 py-5">
-                                            <span class="px-2 py-1 rounded bg-blue-50 text-blue-700 font-bold" x-text="order.loc"></span>
-                                        </td>
-                                        <td class="px-6 py-5"><span class="px-2 py-1 bg-green-50 text-green-700 rounded font-bold uppercase text-[9px]">High Priority</span></td>
-                                        <td class="px-6 py-5">
-                                            <button @click="updateOrder(order.id)" class="text-gold hover:underline font-bold">Update Transit</button>
-                                        </td>
-                                    </tr>
-                                </template>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- SETTLEMENT MODAL -->
-    <div x-show="refundModal" x-cloak class="fixed inset-0 z-[2000] flex items-center justify-center p-6">
-        <div class="absolute inset-0 bg-navy/80 backdrop-blur-sm" @click="refundModal = false"></div>
-        <div class="bg-white rounded-3xl w-full max-w-lg relative p-10 shadow-2xl">
-            <h2 class="serif text-3xl font-bold mb-2">Request Settlement</h2>
-            <p class="text-xs text-slate-400 mb-8">Asset Registry Claim ID: <span x-text="activeOrder.id"></span></p>
-            
-            <div class="space-y-4">
-                <input type="text" placeholder="Full Name" class="w-full p-4 bg-slate-50 rounded-xl border border-slate-200 outline-none text-xs">
-                <select class="w-full p-4 bg-slate-50 rounded-xl border border-slate-200 outline-none text-xs">
-                    <option>Transit Damage</option>
-                    <option>Extended Delay</option>
-                    <option>Security Breach</option>
-                </select>
-                <textarea rows="4" placeholder="Briefly describe the claim reason..." class="w-full p-4 bg-slate-50 rounded-xl border border-slate-200 outline-none text-xs"></textarea>
-                <button @click="refundModal = false; alert('Claim successfully registered for analysis.')" class="w-full bg-navy text-white py-4 rounded-xl font-black text-xs uppercase tracking-[4px]">Submit Insurance Claim</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- LOGIN MODAL -->
-    <div x-show="loginModal" x-cloak class="fixed inset-0 z-[2000] flex items-center justify-center p-6">
-        <div class="absolute inset-0 bg-navy/80 backdrop-blur-sm" @click="loginModal = false"></div>
-        <div class="bg-white rounded-3xl w-full max-w-sm relative p-10 shadow-2xl text-center">
-            <div class="jl-monogram mx-auto mb-6">JL</div>
-            <h2 class="text-xl font-bold mb-8 uppercase tracking-widest">Portal Access</h2>
-            <input type="email" placeholder="Registry Email" class="w-full p-4 bg-slate-100 rounded-xl mb-3 outline-none text-xs">
-            <input type="password" placeholder="Access Key" class="w-full p-4 bg-slate-100 rounded-xl mb-6 outline-none text-xs">
-            <button @click="loginModal = false" class="w-full bg-gold text-navy py-4 rounded-xl font-black text-xs uppercase">Authenticate</button>
-        </div>
-    </div>
-
-    <!-- FOOTER -->
-    <footer class="bg-white border-t border-slate-200 py-10 px-8">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">© 2026 Jessy Global Logistics Group. Registry Services Integrated.</p>
-            <div class="flex gap-6">
-                <a href="#" class="text-slate-400 hover:text-gold transition"><i data-lucide="facebook" class="w-4 h-4"></i></a>
-                <a href="#" class="text-slate-400 hover:text-gold transition"><i data-lucide="twitter" class="w-4 h-4"></i></a>
-                <a href="#" class="text-slate-400 hover:text-gold transition"><i data-lucide="linkedin" class="w-4 h-4"></i></a>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        function logisticsApp() {
-            return {
-                view: 'customer',
-                searchId: '',
-                isTracking: false,
-                loginModal: false,
-                refundModal: false,
-                db: [
-                    { 
-                        id: "JL-901", 
-                        dest: "London, UK", 
-                        loc: "Atlantic Hub", 
-                        statusText: "In Transit via Air Freight", 
-                        estDate: "July 12, 2026",
-                        weight: "4.5 KG",
-                        delayed: true,
-                        history: [
-                            { time: "July 08, 2026 - 10:00 AM", title: "Asset Registry Verified", desc: "Package manifest cleared customs at origin port." },
-                            { time: "July 06, 2026 - 04:30 PM", title: "Inbound to Regional Hub", desc: "Asset received at central logistics center." },
-                            { time: "July 05, 2026 - 09:00 AM", title: "Order Placed", desc: "Shipment registered in Global Logistics system." }
-                        ]
-                    },
-                    { id: "JL-842", dest: "New York, USA", loc: "Destination Hub", statusText: "Awaiting Courier Dispatch", estDate: "Today", weight: "2.1 KG", delayed: false, history: [{ time: "July 08, 2026", title: "Arrived at Port", desc: "Cleared destination customs." }] }
-                ],
-                activeOrder: {},
-
-                performTrack() {
-                    const found = this.db.find(o => o.id === this.searchId.toUpperCase());
-                    if (found) {
-                        this.activeOrder = found;
-                        this.isTracking = true;
-                        // Re-initialize icons for new elements
-                        setTimeout(() => lucide.createIcons(), 100);
-                    } else {
-                        alert("ERROR: Asset ID not found in the global registry.");
-                        this.isTracking = false;
-                    }
-                },
-
-                updateOrder(id) {
-                    alert("ADMIN: Status promotion request sent to Logistics Node for " + id);
-                }
+        /* Interactive pulse effect for high-priority CTA */
+        .pulse-glow {
+            box-shadow: 0 0 0 0 rgba(59, 102, 246, 0.7);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(59, 102, 246, 0.7);
+            }
+            70% {
+                transform: scale(1.03);
+                box-shadow: 0 0 0 10px rgba(59, 102, 246, 0);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(59, 102, 246, 0);
             }
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
+        /* Infinite horizontal scroll effect for integrations marquee */
+        .marquee-track {
+            display: flex;
+            width: max-content;
+            animation: scroll 30s linear infinite;
+        }
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Smooth reveal animation for interactive components */
+        .fade-in-up {
+            animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased font-sans overflow-x-hidden">
+
+    <!-- Header & Navigation -->
+    <header class="fixed top-0 left-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-100 transition-all duration-300" id="mainHeader">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Brand Logo -->
+                <a href="#" class="flex items-center space-x-2">
+                    <div class="bg-brand-500 text-white p-2 rounded-xl flex items-center justify-center shadow-lg shadow-brand-500/20">
+                        <i data-lucide="package-check" class="w-6 h-6"></i>
+                    </div>
+                    <span class="text-xl font-extrabold tracking-tight text-brand-900">Velo<span class="text-brand-500">Ship</span></span>
+                </a>
+
+                <!-- Desktop Navigation Menu -->
+                <nav class="hidden md:flex space-x-8 items-center">
+                    <a href="#features" class="text-slate-600 hover:text-brand-500 font-medium transition-colors">Features</a>
+                    <a href="#calculator" class="text-slate-600 hover:text-brand-500 font-medium transition-colors">Rate Calculator</a>
+                    <a href="#integrations" class="text-slate-600 hover:text-brand-500 font-medium transition-colors">Integrations</a>
+                    <a href="#testimonials" class="text-slate-600 hover:text-brand-500 font-medium transition-colors">Customers</a>
+                    <a href="#faq" class="text-slate-600 hover:text-brand-500 font-medium transition-colors">FAQ</a>
+                </nav>
+
+                <!-- Action CTAs -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="#calculator" class="text-brand-500 hover:text-brand-600 font-semibold text-sm transition-colors px-4 py-2">Get Quote</a>
+                    <a href="#contact" class="bg-brand-900 hover:bg-brand-700 text-white font-semibold text-sm px-5 py-2.5 rounded-xl shadow-md transition-all">Create Account</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="mobileMenuBtn" class="text-slate-700 hover:text-brand-500 focus:outline-none transition-colors" aria-label="Toggle Menu">
+                        <i data-lucide="menu" class="w-6 h-6" id="menuIcon"></i>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu Dropdown -->
+        <div id="mobileMenu" class="hidden md:hidden bg-white border-b border-slate-100 transition-all duration-300">
+            <div class="px-4 pt-2 pb-6 space-y-3 shadow-lg">
+                <a href="#features" class="block px-3 py-2 rounded-lg text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-brand-500 transition-colors">Features</a>
+                <a href="#calculator" class="block px-3 py-2 rounded-lg text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-brand-500 transition-colors">Rate Calculator</a>
+                <a href="#integrations" class="block px-3 py-2 rounded-lg text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-brand-500 transition-colors">Integrations</a>
+                <a href="#testimonials" class="block px-3 py-2 rounded-lg text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-brand-500 transition-colors">Customers</a>
+                <a href="#faq" class="block px-3 py-2 rounded-lg text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-brand-500 transition-colors">FAQ</a>
+                <div class="pt-4 border-t border-slate-100 flex flex-col space-y-2">
+                    <a href="#calculator" class="w-full text-center py-2.5 rounded-lg text-brand-500 font-semibold border border-brand-500 hover:bg-brand-50 transition-colors">Calculate Rates</a>
+                    <a href="#contact" class="w-full text-center py-2.5 rounded-lg bg-brand-500 text-white font-semibold hover:bg-brand-600 transition-colors">Sign Up Free</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 lg:pt-44 lg:pb-32 overflow-hidden bg-gradient-to-b from-brand-50/70 via-white to-slate-50">
+        <!-- Abstract background blobs for premium dynamic look -->
+        <div class="absolute top-1/4 left-1/10 w-96 h-96 bg-brand-200/40 rounded-full blur-3xl -z-10"></div>
+        <div class="absolute bottom-1/10 right-1/10 w-80 h-80 bg-accent-500/10 rounded-full blur-3xl -z-10"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+                
+                <!-- Left Content Area -->
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <div class="inline-flex items-center space-x-2 bg-brand-100/60 border border-brand-200/50 text-brand-700 text-xs font-semibold px-3.5 py-1.5 rounded-full">
+                        <span class="flex h-2 w-2 rounded-full bg-brand-500 animate-ping"></span>
+                        <span>Now Integrated with Over 50+ Global Carriers</span>
+                    </div>
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-brand-900 tracking-tight leading-none">
+                        Ship Smarter.<br>
+                        <span class="text-brand-500">Scale Faster.</span> Save Big.
+                    </h1>
+                    <p class="text-lg text-slate-600 max-w-xl mx-auto lg:mx-0">
+                        VeloShip connects your store instantly to global carriers. Compare rates, print labels dynamically, and track all your multi-channel orders on a single dashboard.
+                    </p>
+                    
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                        <a href="#calculator" class="pulse-glow w-full sm:w-auto text-center px-8 py-4 bg-brand-500 hover:bg-brand-600 text-white font-bold rounded-xl shadow-lg shadow-brand-500/25 transition-all">
+                            Estimate Shipping Rates
+                        </a>
+                        <a href="#features" class="w-full sm:w-auto text-center px-8 py-4 bg-white border border-slate-200 text-slate-700 font-bold rounded-xl shadow-sm hover:bg-slate-50 transition-all flex items-center justify-center space-x-2">
+                            <span>Explore Features</span>
+                            <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                        </a>
+                    </div>
+
+                    <!-- Highlight Metrics -->
+                    <div class="pt-8 border-t border-slate-100 grid grid-cols-3 gap-4 max-w-md mx-auto lg:mx-0">
+                        <div>
+                            <p class="text-2xl sm:text-3xl font-extrabold text-brand-900">Up to 70%</p>
+                            <p class="text-xs text-slate-500 uppercase tracking-wider font-semibold">Cheaper Rates</p>
+                        </div>
+                        <div>
+                            <p class="text-2xl sm:text-3xl font-extrabold text-brand-900">200+</p>
+                            <p class="text-xs text-slate-500 uppercase tracking-wider font-semibold">Countries Served</p>
+                        </div>
+                        <div>
+                            <p class="text-2xl sm:text-3xl font-extrabold text-brand-900">10M+</p>
+                            <p class="text-xs text-slate-500 uppercase tracking-wider font-semibold">Labels Printed</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Hero Graphic -->
+                <div class="lg:col-span-5 relative">
+                    <div class="relative bg-white p-6 rounded-2xl shadow-2xl border border-slate-100/80">
+                        <!-- Top header of mockup UI -->
+                        <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+                            <div class="flex items-center space-x-2">
+                                <span class="w-3 h-3 rounded-full bg-red-400"></span>
+                                <span class="w-3 h-3 rounded-full bg-yellow-400"></span>
+                                <span class="w-3 h-3 rounded-full bg-green-400"></span>
+                            </div>
+                            <span class="text-xs text-slate-400 font-mono">veloship-dashboard.app</span>
+                        </div>
+                        <!-- Mockup Graphics (Visual representation of dashboard stats) -->
+                        <div class="space-y-4 pt-4">
+                            <div class="bg-slate-50 p-4 rounded-xl flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <div class="p-2 bg-emerald-100 text-emerald-600 rounded-lg">
+                                        <i data-lucide="trending-up" class="w-5 h-5"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-slate-400 font-medium">Monthly Savings</p>
+                                        <p class="text-lg font-bold text-slate-800">$1,482.50</p>
+                                    </div>
+                                </div>
+                                <span class="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-0.5 rounded-full font-semibold">+18.2%</span>
+                            </div>
+
+                            <div class="bg-slate-50 p-4 rounded-xl space-y-2">
+                                <div class="flex justify-between items-center text-xs text-slate-400">
+                                    <span>Real-time Shipments</span>
+                                    <span class="font-bold text-brand-500">92% Delivered</span>
+                                </div>
+                                <div class="w-full bg-slate-200 rounded-full h-2">
+                                    <div class="bg-brand-500 h-2 rounded-full" style="width: 92%"></div>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="bg-slate-50 p-3 rounded-xl flex flex-col justify-center">
+                                    <span class="text-xs text-slate-400">Average Transit</span>
+                                    <span class="text-base font-bold text-slate-800">2.1 Days</span>
+                                </div>
+                                <div class="bg-slate-50 p-3 rounded-xl flex flex-col justify-center">
+                                    <span class="text-xs text-slate-400">Label Printing</span>
+                                    <span class="text-base font-bold text-slate-800">Instant</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Shipping Rates Calculator -->
+    <section id="calculator" class="py-20 bg-slate-100 scroll-mt-20">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center space-y-4 mb-12">
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-brand-900 tracking-tight">Compare Real-Time Live Rates</h2>
+                <p class="text-slate-600 max-w-2xl mx-auto">Get custom instant shipping estimates based on destination weight and dimensions. No credit card required.</p>
+            </div>
+
+            <!-- Calculator Form Card -->
+            <div class="bg-white rounded-3xl shadow-xl border border-slate-200/60 p-6 sm:p-10 transition-all">
+                <form id="rateForm" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Origin Setup -->
+                        <div class="space-y-3">
+                            <label class="block text-sm font-semibold text-slate-700">Origin Location</label>
+                            <div class="relative">
+                                <select id="originCountry" class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:outline-none transition-all">
+                                    <option value="US" selected>United States (USA)</option>
+                                    <option value="CA">Canada</option>
+                                    <option value="MX">Mexico</option>
+                                    <option value="UK">United Kingdom</option>
+                                </select>
+                                <i data-lucide="map-pin" class="absolute left-3 top-3.5 text-slate-400 w-5 h-5"></i>
+                            </div>
+                            <input type="text" id="originZip" placeholder="Zip / Postal Code" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:outline-none transition-all">
+                        </div>
+
+                        <!-- Destination Setup -->
+                        <div class="space-y-3">
+                            <label class="block text-sm font-semibold text-slate-700">Destination Location</label>
+                            <div class="relative">
+                                <select id="destCountry" class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:outline-none transition-all">
+                                    <option value="US">United States (USA)</option>
+                                    <option value="CA" selected>Canada</option>
+                                    <option value="MX">Mexico</option>
+                                    <option value="UK">United Kingdom</option>
+                                </select>
+                                <i data-lucide="navigation" class="absolute left-3 top-3.5 text-slate-400 w-5 h-5"></i>
+                            </div>
+                            <input type="text" id="destZip" placeholder="Zip / Postal Code" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:outline-none transition-all">
+                        </div>
+                    </div>
+
+                    <!-- Package Dimensions & Weight -->
+                    <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 pt-4 border-t border-slate-100">
+                        <div class="space-y-2">
+                            <label class="block text-sm font-semibold text-slate-700">Weight (kg)</label>
+                            <input type="number" id="pkgWeight" value="1.5" min="0.1" step="0.1" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:outline-none transition-all">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block text-sm font-semibold text-slate-700">Length (cm)</label>
+                            <input type="number" id="pkgLength" value="20" min="1" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:outline-none transition-all">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block text-sm font-semibold text-slate-700">Width (cm)</label>
+                            <input type="number" id="pkgWidth" value="15" min="1" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:outline-none transition-all">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block text-sm font-semibold text-slate-700">Height (cm)</label>
+                            <input type="number" id="pkgHeight" value="10" min="1" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:outline-none transition-all">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full py-4 bg-brand-500 hover:bg-brand-600 text-white font-bold rounded-xl shadow-lg transition-all flex items-center justify-center space-x-2">
+                        <i data-lucide="calculator" class="w-5 h-5"></i>
+                        <span>Calculate Rates</span>
+                    </button>
+                </form>
+
+                <!-- Dynamic Loading Skeleton -->
+                <div id="calculatorLoading" class="hidden py-12 flex flex-col items-center justify-center space-y-4">
+                    <div class="w-12 h-12 border-4 border-slate-200 border-t-brand-500 rounded-full animate-spin"></div>
+                    <p class="text-sm text-slate-500 font-medium animate-pulse">Requesting shipping quotes from carriers...</p>
+                </div>
+
+                <!-- Simulation Results UI -->
+                <div id="calculatorResults" class="hidden mt-8 pt-8 border-t border-slate-100 space-y-4 fade-in-up">
+                    <h3 class="text-lg font-bold text-brand-900 flex items-center space-x-2">
+                        <i data-lucide="sparkles" class="w-5 h-5 text-amber-500"></i>
+                        <span>Available Carrier Rates</span>
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <!-- Standard Saver Option -->
+                        <div class="border border-slate-200 hover:border-brand-500 bg-white p-5 rounded-2xl relative transition-all group flex flex-col justify-between">
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-xs font-semibold px-2 py-0.5 bg-emerald-50 text-emerald-700 rounded-full">Best Price</span>
+                                    <i data-lucide="truck" class="w-5 h-5 text-slate-400"></i>
+                                </div>
+                                <h4 class="font-bold text-slate-800 text-lg">Standard Saver</h4>
+                                <p class="text-xs text-slate-400">Estimated Delivery: 5 - 7 Days</p>
+                            </div>
+                            <div class="mt-6 pt-4 border-t border-slate-100 flex items-baseline justify-between">
+                                <span class="text-slate-400 text-xs">Standard rate</span>
+                                <span class="text-2xl font-black text-brand-900" id="rateStandard">$0.00</span>
+                            </div>
+                        </div>
+
+                        <!-- Expedited Option -->
+                        <div class="border border-slate-200 hover:border-brand-500 bg-white p-5 rounded-2xl relative transition-all group flex flex-col justify-between">
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-xs font-semibold px-2 py-0.5 bg-brand-50 text-brand-700 rounded-full">Popular</span>
+                                    <i data-lucide="zap" class="w-5 h-5 text-brand-500"></i>
+                                </div>
+                                <h4 class="font-bold text-slate-800 text-lg">Expedited Post</h4>
+                                <p class="text-xs text-slate-400">Estimated Delivery: 2 - 3 Days</p>
+                            </div>
+                            <div class="mt-6 pt-4 border-t border-slate-100 flex items-baseline justify-between">
+                                <span class="text-slate-400 text-xs">Contract rate</span>
+                                <span class="text-2xl font-black text-brand-900" id="rateExpedited">$0.00</span>
+                            </div>
+                        </div>
+
+                        <!-- Express Overnight Option -->
+                        <div class="border border-slate-200 hover:border-brand-500 bg-white p-5 rounded-2xl relative transition-all group flex flex-col justify-between">
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-xs font-semibold px-2 py-0.5 bg-purple-50 text-purple-700 rounded-full">Fastest</span>
+                                    <i data-lucide="plane" class="w-5 h-5 text-purple-500"></i>
+                                </div>
+                                <h4 class="font-bold text-slate-800 text-lg">Express Priority</h4>
+                                <p class="text-xs text-slate-400">Estimated Delivery: Next Business Day</p>
+                            </div>
+                            <div class="mt-6 pt-4 border-t border-slate-100 flex items-baseline justify-between">
+                                <span class="text-slate-400 text-xs">Air Priority rate</span>
+                                <span class="text-2xl font-black text-brand-900" id="rateExpress">$0.00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features / Value Propositions Grid -->
+    <section id="features" class="py-24 bg-white scroll-mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center space-y-4 mb-16">
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-brand-900 tracking-tight">Everything You Need for Scale</h2>
+                <p class="text-slate-600 max-w-2xl mx-auto">Skip complex shipping systems. Build robust delivery pathways with user-oriented automation engineered for e-commerce platforms.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="p-8 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-white hover:shadow-xl hover:border-brand-100 transition-all group">
+                    <div class="w-12 h-12 bg-brand-50 text-brand-500 rounded-xl flex items-center justify-center mb-6 group-hover:bg-brand-500 group-hover:text-white transition-all">
+                        <i data-lucide="shield-check" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-brand-900 mb-3">Insured & Certified Shipments</h3>
+                    <p class="text-slate-600 leading-relaxed text-sm">Gain peace of mind with global shipping protection integrations up to $5,000 against package damage or transit loss.</p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="p-8 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-white hover:shadow-xl hover:border-brand-100 transition-all group">
+                    <div class="w-12 h-12 bg-brand-50 text-brand-500 rounded-xl flex items-center justify-center mb-6 group-hover:bg-brand-500 group-hover:text-white transition-all">
+                        <i data-lucide="cpu" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-brand-900 mb-3">API-Driven Label Engine</h3>
+                    <p class="text-slate-600 leading-relaxed text-sm">Instantly create high-volume labels dynamically inside your software platform using our robust Webhook support and REST API.</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="p-8 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-white hover:shadow-xl hover:border-brand-100 transition-all group">
+                    <div class="w-12 h-12 bg-brand-50 text-brand-500 rounded-xl flex items-center justify-center mb-6 group-hover:bg-brand-500 group-hover:text-white transition-all">
+                        <i data-lucide="bell" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-brand-900 mb-3">Branded Customer Tracking</h3>
+                    <p class="text-slate-600 leading-relaxed text-sm">Create white-labeled tracking pages configured with your brand logo, keeping users connected each step of the courier lifecycle.</p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="p-8 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-white hover:shadow-xl hover:border-brand-100 transition-all group">
+                    <div class="w-12 h-12 bg-brand-50 text-brand-500 rounded-xl flex items-center justify-center mb-6 group-hover:bg-brand-500 group-hover:text-white transition-all">
+                        <i data-lucide="landmark" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-brand-900 mb-3">Customs Clearance Support</h3>
+                    <p class="text-slate-600 leading-relaxed text-sm">Fulfill custom commercial invoices automatically, removing administrative challenges for global borders without friction.</p>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="p-8 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-white hover:shadow-xl hover:border-brand-100 transition-all group">
+                    <div class="w-12 h-12 bg-brand-50 text-brand-500 rounded-xl flex items-center justify-center mb-6 group-hover:bg-brand-500 group-hover:text-white transition-all">
+                        <i data-lucide="layers" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-brand-900 mb-3">Unified Multi-Store Sync</h3>
+                    <p class="text-slate-600 leading-relaxed text-sm">Import orders smoothly across different ecommerce ecosystems. Process unified customer addresses all inside a single grid.</p>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="p-8 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-white hover:shadow-xl hover:border-brand-100 transition-all group">
+                    <div class="w-12 h-12 bg-brand-50 text-brand-500 rounded-xl flex items-center justify-center mb-6 group-hover:bg-brand-500 group-hover:text-white transition-all">
+                        <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-brand-900 mb-3">Deep Shipping Analytics</h3>
+                    <p class="text-slate-600 leading-relaxed text-sm">Review shipping expenditures, delivery rate timelines, and optimize dispatch pathways from live integrated visual charts.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="py-20 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center space-y-4 mb-16">
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-brand-900 tracking-tight">4 Simple Steps to Ship</h2>
+                <p class="text-slate-600 max-w-2xl mx-auto">Get connected in minutes and process labels securely with modern warehouse ease.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 relative">
+                <!-- Step 1 -->
+                <div class="relative space-y-4 text-center md:text-left">
+                    <div class="w-12 h-12 rounded-full bg-brand-500 text-white flex items-center justify-center font-extrabold text-lg shadow-md shadow-brand-500/20 mx-auto md:mx-0">1</div>
+                    <h3 class="text-lg font-bold text-brand-900">Sync Your Store</h3>
+                    <p class="text-sm text-slate-500 leading-relaxed">Connect marketplaces effortlessly or hook in custom stores with unified APIs.</p>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="relative space-y-4 text-center md:text-left">
+                    <div class="w-12 h-12 rounded-full bg-brand-100 text-brand-500 flex items-center justify-center font-extrabold text-lg mx-auto md:mx-0">2</div>
+                    <h3 class="text-lg font-bold text-brand-900">Compare Real Rates</h3>
+                    <p class="text-sm text-slate-500 leading-relaxed">Check multi-carrier estimates dynamically. Standardize best pricing based on priorities.</p>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="relative space-y-4 text-center md:text-left">
+                    <div class="w-12 h-12 rounded-full bg-brand-100 text-brand-500 flex items-center justify-center font-extrabold text-lg mx-auto md:mx-0">3</div>
+                    <h3 class="text-lg font-bold text-brand-900">Generate Labels</h3>
+                    <p class="text-sm text-slate-500 leading-relaxed">Print standard warehouse layouts in single clicks. Export commercial invoices cleanly.</p>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="relative space-y-4 text-center md:text-left">
+                    <div class="w-12 h-12 rounded-full bg-brand-100 text-brand-500 flex items-center justify-center font-extrabold text-lg mx-auto md:mx-0">4</div>
+                    <h3 class="text-lg font-bold text-brand-900">Fulfill & Track</h3>
+                    <p class="text-sm text-slate-500 leading-relaxed">Alert international buyers. Track parcels dynamically across fulfillment milestones.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partners / Integrations Infinite Marquee -->
+    <section id="integrations" class="py-16 bg-white overflow-hidden scroll-mt-20 border-t border-b border-slate-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 text-center">
+            <p class="text-xs uppercase tracking-widest font-bold text-slate-400">Integrates Seamlessly With Your Tech Stack</p>
+        </div>
+
+        <div class="relative w-full flex items-center">
+            <!-- Marquee Container -->
+            <div class="marquee-track space-x-12">
+                <!-- Shopify -->
+                <div class="flex items-center space-x-2 bg-slate-50 px-6 py-3.5 rounded-2xl border border-slate-100">
+                    <i class="w-6 h-6 text-emerald-600" data-lucide="shopping-bag"></i>
+                    <span class="font-bold text-slate-700 text-sm">Shopify</span>
+                </div>
+                <!-- WooCommerce -->
+                <div class="flex items-center space-x-2 bg-slate-50 px-6 py-3.5 rounded-2xl border border-slate-100">
+                    <i class="w-6 h-6 text-purple-600" data-lucide="shopping-cart"></i>
+                    <span class="font-bold text-slate-700 text-sm">WooCommerce</span>
+                </div>
+                <!-- Amazon -->
+                <div class="flex items-center space-x-2 bg-slate-50 px-6 py-3.5 rounded-2xl border border-slate-100">
+                    <i class="w-6 h-6 text-amber-500" data-lucide="globe"></i>
+                    <span class="font-bold text-slate-700 text-sm">Amazon</span>
+                </div>
+                <!-- Magento -->
+                <div class="flex items-center space-x-2 bg-slate-50 px-6 py-3.5 rounded-2xl border border-slate-100">
+                    <i class="w-6 h-6 text-orange-600" data-lucide="layers"></i>
+                    <span class="font-bold text-slate-700 text-sm">Magento</span>
+                </div>
+                <!-- BigCommerce -->
+                <div class="flex items-center space-x-2 bg-slate-50 px-6 py-3.5 rounded-2xl border border-slate-100">
+                    <i class="w-6 h-6 text-blue-600" data-lucide="layout"></i>
+                    <span class="font-bold text-slate-700 text-sm">BigCommerce</span>
+                </div>
+                <!-- Wix -->
+                <div class="flex items-center space-x-2 bg-slate-50 px-6 py-3.5 rounded-2xl border border-slate-100">
+                    <i class="w-6 h-6 text-dark" data-lucide="monitor"></i>
+                    <span class="font-bold text-slate-700 text-sm">Wix E-commerce</span>
+                </div>
+
+                <!-- Duplicate items for seamless transition wrap-around scrolling -->
+                <div class="flex items-center space-x-2 bg-slate-50 px-6 py-3.5 rounded-2xl border border-slate-100">
+                    <i class="w-6 h-6 text-emerald-600" data-lucide="shopping-bag"></i>
+                    <span class="font-bold text-slate-700 text-sm">Shopify</span>
+                </div>
+                <div class="flex items-center space-x-2 bg-slate-50 px-6 py-3.5 rounded-2xl border border-slate-100">
+                    <i class="w-6 h-6 text-purple-600" data-lucide="shopping-cart"></i>
+                    <span class="font-bold text-slate-700 text-sm">WooCommerce</span>
+                </div>
+                <div class="flex items-center space-x-2 bg-slate-50 px-6 py-3.5 rounded-2xl border border-slate-100">
+                    <i class="w-6 h-6 text-amber-500" data-lucide="globe"></i>
+                    <span class="font-bold text-slate-700 text-sm">Amazon</span>
+                </div>
+                <div class="flex items-center space-x-2 bg-slate-50 px-6 py-3.5 rounded-2xl border border-slate-100">
+                    <i class="w-6 h-6 text-orange-600" data-lucide="layers"></i>
+                    <span class="font-bold text-slate-700 text-sm">Magento</span>
+                </div>
+                <div class="flex items-center space-x-2 bg-slate-50 px-6 py-3.5 rounded-2xl border border-slate-100">
+                    <i class="w-6 h-6 text-blue-600" data-lucide="layout"></i>
+                    <span class="font-bold text-slate-700 text-sm">BigCommerce</span>
+                </div>
+                <div class="flex items-center space-x-2 bg-slate-50 px-6 py-3.5 rounded-2xl border border-slate-100">
+                    <i class="w-6 h-6 text-dark" data-lucide="monitor"></i>
+                    <span class="font-bold text-slate-700 text-sm">Wix E-commerce</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonial Section / Carousel -->
+    <section id="testimonials" class="py-24 bg-slate-50 scroll-mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Left Details Header -->
+                <div class="lg:col-span-5 space-y-6 text-center lg:text-left">
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-brand-900 tracking-tight">Trusted by Growth Brands Worldwide</h2>
+                    <p class="text-slate-600">Hear from modern e-commerce leaders who trimmed international logistics overhead using dynamic label generation tools.</p>
+                    <div class="flex justify-center lg:justify-start space-x-2" id="carouselNav">
+                        <button id="prevBtn" class="w-12 h-12 bg-white hover:bg-brand-50 border border-slate-200 text-slate-600 rounded-xl flex items-center justify-center shadow-sm transition-all focus:outline-none">
+                            <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                        </button>
+                        <button id="nextBtn" class="w-12 h-12 bg-white hover:bg-brand-50 border border-slate-200 text-slate-600 rounded-xl flex items-center justify-center shadow-sm transition-all focus:outline-none">
+                            <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right Slider Container -->
+                <div class="lg:col-span-7 relative overflow-hidden min-h-[300px]">
+                    <div id="testimonialSlider" class="flex transition-transform duration-500 ease-out">
+                        
+                        <!-- Slide 1 -->
+                        <div class="w-full shrink-0 px-2">
+                            <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-xl shadow-slate-100/50 space-y-6">
+                                <div class="flex text-amber-500">
+                                    <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                    <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                    <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                    <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                    <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                </div>
+                                <p class="text-slate-600 italic text-base leading-relaxed">
+                                    "Integrating VeloShip halved our checkout bounce rate. Customers compare pricing dynamically in-app, making operations streamlined and cost-effective."
+                                </p>
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center font-bold text-indigo-700">SH</div>
+                                    <div>
+                                        <h4 class="font-bold text-slate-800">Sarah Jenkins</h4>
+                                        <p class="text-xs text-slate-500">Founder, Solstice Apparel</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Slide 2 -->
+                        <div class="w-full shrink-0 px-2">
+                            <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-xl shadow-slate-100/50 space-y-6">
+                                <div class="flex text-amber-500">
+                                    <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                    <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                    <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                    <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                    <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                </div>
+                                <p class="text-slate-600 italic text-base leading-relaxed">
+                                    "Processing high-volume custom webhooks with their REST API works smoothly under stress. Label outputs stay error-free across high-order seasonal volumes."
+                                </p>
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center font-bold text-emerald-700">MT</div>
+                                    <div>
+                                        <h4 class="font-bold text-slate-800">Marcus Thorne</h4>
+                                        <p class="text-xs text-slate-500">Director of Ops, NeoTech Parts</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Slide 3 -->
+                        <div class="w-full shrink-0 px-2">
+                            <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-xl shadow-slate-100/50 space-y-6">
+                                <div class="flex text-amber-500">
+                                    <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                    <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                    <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                    <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                    <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                </div>
+                                <p class="text-slate-600 italic text-base leading-relaxed">
+                                    "Their clear Customs paperwork automations dramatically resolved cross-border shipping friction. Our delivery windows are more reliable than ever."
+                                </p>
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-12 h-12 bg-sky-100 rounded-full flex items-center justify-center font-bold text-sky-700">LC</div>
+                                    <div>
+                                        <h4 class="font-bold text-slate-800">Lucia Chen</h4>
+                                        <p class="text-xs text-slate-500">VP, Apex Global Distribution</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Accordion Section -->
+    <section id="faq" class="py-24 bg-white scroll-mt-20">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center space-y-4 mb-16">
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-brand-900 tracking-tight">Frequently Asked Questions</h2>
+                <p class="text-slate-600">Got questions about rate structures or multi-carrier logistics? Find direct information below.</p>
+            </div>
+
+            <div class="space-y-4">
+                <!-- FAQ Item 1 -->
+                <div class="border border-slate-200 rounded-2xl overflow-hidden transition-all duration-200">
+                    <button class="faq-toggle w-full px-6 py-5 text-left font-bold text-slate-800 hover:bg-slate-50/50 flex items-center justify-between transition-colors focus:outline-none">
+                        <span>How are my custom shipping discounts calculated?</span>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-slate-500 transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out bg-slate-50/30">
+                        <div class="p-6 text-slate-600 text-sm leading-relaxed border-t border-slate-100">
+                            Our discounted commercial pricing rates are built directly using combined shipping metrics. By pooling carrier package volumes from over 100,000 retail shippers worldwide, we secure premier pre-negotiated tier rates and pass those pricing models to your VeloShip dashboard automatically.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 2 -->
+                <div class="border border-slate-200 rounded-2xl overflow-hidden transition-all duration-200">
+                    <button class="faq-toggle w-full px-6 py-5 text-left font-bold text-slate-800 hover:bg-slate-50/50 flex items-center justify-between transition-colors focus:outline-none">
+                        <span>Are there any subscription signup monthly costs?</span>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-slate-500 transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out bg-slate-50/30">
+                        <div class="p-6 text-slate-600 text-sm leading-relaxed border-t border-slate-100">
+                            No setup fees apply. Our core account setup tiers require no monthly pricing, enabling you to purchase carrier labels strictly as you pack. Additional dedicated professional tooling features are available on advanced billing plans should your operations expand.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 3 -->
+                <div class="border border-slate-200 rounded-2xl overflow-hidden transition-all duration-200">
+                    <button class="faq-toggle w-full px-6 py-5 text-left font-bold text-slate-800 hover:bg-slate-50/50 flex items-center justify-between transition-colors focus:outline-none">
+                        <span>Which global shipping platforms are supported?</span>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-slate-500 transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out bg-slate-50/30">
+                        <div class="p-6 text-slate-600 text-sm leading-relaxed border-t border-slate-100">
+                            We support popular ecommerce platforms including Shopify, WooCommerce, Magento, Amazon, BigCommerce, and custom integrations built directly using our documentation APIs.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 4 -->
+                <div class="border border-slate-200 rounded-2xl overflow-hidden transition-all duration-200">
+                    <button class="faq-toggle w-full px-6 py-5 text-left font-bold text-slate-800 hover:bg-slate-50/50 flex items-center justify-between transition-colors focus:outline-none">
+                        <span>How are international shipping duties handled?</span>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-slate-500 transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out bg-slate-50/30">
+                        <div class="p-6 text-slate-600 text-sm leading-relaxed border-t border-slate-100">
+                            For international routes, customs declarations are formatted automatically. You can choose to prepay duties (DDP) or have the recipient settle duties upon cross-border delivery (DDU) during the label creation process.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Interactive CTA Form Section -->
+    <section id="contact" class="py-20 bg-slate-950 text-white relative overflow-hidden">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,#1e3a8a,transparent_60%)] opacity-30"></div>
+        
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                
+                <!-- CTA Left Text Content -->
+                <div class="space-y-6 text-center lg:text-left">
+                    <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Ready to Lower Shipping Costs?</h2>
+                    <p class="text-slate-400 text-base max-w-md mx-auto lg:mx-0">
+                        Set up your dashboard environment in under five minutes. Get configured for instant carrier pricing tables and global custom webhooks.
+                    </p>
+                    <div class="space-y-3 pt-4 hidden sm:block">
+                        <div class="flex items-center space-x-3 text-slate-300">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-emerald-400"></i>
+                            <span class="text-sm">Instant integration plugins</span>
+                        </div>
+                        <div class="flex items-center space-x-3 text-slate-300">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-emerald-400"></i>
+                            <span class="text-sm">No credit card verification required</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive Form Card -->
+                <div class="bg-white text-slate-800 p-8 rounded-3xl shadow-2xl relative">
+                    <h3 class="text-xl font-bold text-slate-900 mb-6">Create Free Account</h3>
+                    
+                    <form id="signupForm" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Company Name</label>
+                            <input type="text" id="signupCompany" placeholder="e.g. Solstice Brands" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:outline-none text-sm transition-all">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Business Email</label>
+                            <input type="email" id="signupEmail" placeholder="you@company.com" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:outline-none text-sm transition-all">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Estimated Monthly Shipments</label>
+                            <select id="signupVolume" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:outline-none text-sm transition-all">
+                                <option value="starter">Under 100 packages</option>
+                                <option value="growth">100 - 1,000 packages</option>
+                                <option value="pro">1,000 - 10,000 packages</option>
+                                <option value="enterprise">10,000+ packages</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="w-full py-3.5 bg-brand-500 hover:bg-brand-600 text-white font-bold rounded-xl shadow-md transition-all text-sm">
+                            Get Account Access
+                        </button>
+                    </form>
+
+                    <!-- Success State (Hidden by default) -->
+                    <div id="signupSuccess" class="hidden absolute inset-0 bg-white rounded-3xl p-8 flex flex-col items-center justify-center text-center space-y-4">
+                        <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center">
+                            <i data-lucide="party-popper" class="w-8 h-8"></i>
+                        </div>
+                        <h4 class="text-2xl font-bold text-slate-900">Awesome!</h4>
+                        <p class="text-slate-600 text-sm">Your trial credentials and activation guide are traveling to your inbox.</p>
+                        <button id="resetSignupBtn" class="text-sm font-semibold text-brand-500 hover:text-brand-600 pt-2 focus:outline-none">Back to Signup</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 pt-16 pb-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-5 gap-8 mb-12">
+            
+            <!-- Branding Column -->
+            <div class="md:col-span-2 space-y-6">
+                <a href="#" class="flex items-center space-x-2">
+                    <div class="bg-brand-500 text-white p-2 rounded-xl flex items-center justify-center">
+                        <i data-lucide="package-check" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-lg font-extrabold tracking-tight text-white">Velo<span class="text-brand-500">Ship</span></span>
+                </a>
+                <p class="text-sm text-slate-400 max-w-xs leading-relaxed">
+                    A shipping intelligence platform engineered for modern commercial scaling. Save logistics execution costs effortlessly.
+                </p>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-slate-500 hover:text-white transition-colors" aria-label="Twitter">
+                        <i data-lucide="twitter" class="w-5 h-5"></i>
+                    </a>
+                    <a href="#" class="text-slate-500 hover:text-white transition-colors" aria-label="Linkedin">
+                        <i data-lucide="linkedin" class="w-5 h-5"></i>
+                    </a>
+                    <a href="#" class="text-slate-500 hover:text-white transition-colors" aria-label="Github">
+                        <i data-lucide="github" class="w-5 h-5"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Column 2 (Product) -->
+            <div class="space-y-4">
+                <h4 class="text-xs uppercase tracking-widest font-bold text-slate-200">Solutions</h4>
+                <ul class="space-y-2.5 text-sm">
+                    <li><a href="#features" class="hover:text-white transition-colors">Carrier Rates</a></li>
+                    <li><a href="#features" class="hover:text-white transition-colors">E-commerce Shipping</a></li>
+                    <li><a href="#features" class="hover:text-white transition-colors">Label APIs</a></li>
+                    <li><a href="#features" class="hover:text-white transition-colors">Enterprise Fulfillment</a></li>
+                </ul>
+            </div>
+
+            <!-- Column 3 (Company) -->
+            <div class="space-y-4">
+                <h4 class="text-xs uppercase tracking-widest font-bold text-slate-200">Company</h4>
+                <ul class="space-y-2.5 text-sm">
+                    <li><a href="#" class="hover:text-white transition-colors">About Us</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Press Inquiries</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Status & System</a></li>
+                    <li><a href="#contact" class="hover:text-white transition-colors">Contact Support</a></li>
+                </ul>
+            </div>
+
+            <!-- Column 4 (Legal) -->
+            <div class="space-y-4">
+                <h4 class="text-xs uppercase tracking-widest font-bold text-slate-200">Legal</h4>
+                <ul class="space-y-2.5 text-sm">
+                    <li><a href="#" class="hover:text-white transition-colors">Privacy Principles</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Terms of Service</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Fulfillment Rules</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">GDPR compliance</a></li>
+                </ul>
+            </div>
+
+        </div>
+
+        <!-- Bottom Copyright -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 border-t border-slate-800 text-center md:text-left flex flex-col md:flex-row items-center justify-between text-xs text-slate-500 space-y-4 md:space-y-0">
+            <p>&copy; 2026 VeloShip Technologies. All rights reserved.</p>
+            <p class="flex items-center justify-center space-x-1">
+                <span>Made for global builders</span>
+                <i data-lucide="heart" class="w-3.5 h-3.5 text-red-500 fill-current"></i>
+            </p>
+        </div>
+    </footer>
+
+    <!-- JavaScript (Can be extracted to script.js) -->
+    <script>
+        // Initialize Lucide Icons for clean visual rendering
+        lucide.createIcons();
+
+        // ----------------------------------------------------
+        // NAVIGATION SYSTEM
+        // ----------------------------------------------------
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuIcon = document.getElementById('menuIcon');
+        const mainHeader = document.getElementById('mainHeader');
+
+        // Toggle mobile menu navigation panel with clean icons
+        mobileMenuBtn.addEventListener('click', () => {
+            const isHidden = mobileMenu.classList.contains('hidden');
+            if (isHidden) {
+                mobileMenu.classList.remove('hidden');
+                menuIcon.setAttribute('data-lucide', 'x');
+            } else {
+                mobileMenu.classList.add('hidden');
+                menuIcon.setAttribute('data-lucide', 'menu');
+            }
             lucide.createIcons();
+        });
+
+        // Hide mobile menu on link click
+        document.querySelectorAll('#mobileMenu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                menuIcon.setAttribute('data-lucide', 'menu');
+                lucide.createIcons();
+            });
+        });
+
+        // Scroll active background transition for navigation header bar
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                mainHeader.classList.remove('bg-white/80');
+                mainHeader.classList.add('bg-white', 'shadow-md', 'border-b-transparent');
+            } else {
+                mainHeader.classList.remove('bg-white', 'shadow-md', 'border-b-transparent');
+                mainHeader.classList.add('bg-white/80', 'border-b', 'border-slate-100');
+            }
+        });
+
+        // ----------------------------------------------------
+        // SIMULATED SHIPPING RATE CALCULATOR
+        // ----------------------------------------------------
+        const rateForm = document.getElementById('rateForm');
+        const calculatorLoading = document.getElementById('calculatorLoading');
+        const calculatorResults = document.getElementById('calculatorResults');
+
+        const rateStandard = document.getElementById('rateStandard');
+        const rateExpedited = document.getElementById('rateExpedited');
+        const rateExpress = document.getElementById('rateExpress');
+
+        rateForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            // Reset view state
+            calculatorResults.classList.add('hidden');
+            calculatorLoading.classList.remove('hidden');
+
+            // Gather values to calculate simulated pricing
+            const weight = parseFloat(document.getElementById('pkgWeight').value) || 1.0;
+            const length = parseFloat(document.getElementById('pkgLength').value) || 10;
+            const width = parseFloat(document.getElementById('pkgWidth').value) || 10;
+            const height = parseFloat(document.getElementById('pkgHeight').value) || 10;
+            const originCountry = document.getElementById('originCountry').value;
+            const destCountry = document.getElementById('destCountry').value;
+
+            // Generate mock quotes based on weight, dimensions, and regional boundaries
+            setTimeout(() => {
+                const dimensionalFactor = (length * width * height) / 5000;
+                const coreFactor = Math.max(weight, dimensionalFactor);
+                
+                // Base route multipliers
+                let routeMultiplier = 1.0;
+                if (originCountry !== destCountry) {
+                    routeMultiplier = 2.5; // Premium for cross-border routes
+                }
+
+                // Pricing tiers
+                const standardPrice = (5.50 + (coreFactor * 2.20)) * routeMultiplier;
+                const expeditedPrice = (12.00 + (coreFactor * 3.50)) * routeMultiplier;
+                const expressPrice = (28.00 + (coreFactor * 6.00)) * routeMultiplier;
+
+                // Format numbers to USD currency
+                rateStandard.textContent = `$${standardPrice.toFixed(2)}`;
+                rateExpedited.textContent = `$${expeditedPrice.toFixed(2)}`;
+                rateExpress.textContent = `$${expressPrice.toFixed(2)}`;
+
+                // Render dynamic results
+                calculatorLoading.classList.add('hidden');
+                calculatorResults.classList.remove('hidden');
+                
+                // Auto scroll to results smoothly
+                calculatorResults.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 1200); // 1.2s delay simulating carrier web-request roundtrip
+        });
+
+        // ----------------------------------------------------
+        // TESTIMONIALS SLIDER MODULE
+        // ----------------------------------------------------
+        const slider = document.getElementById('testimonialSlider');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        let activeIndex = 0;
+        const totalSlides = slider.children.length;
+
+        function updateSliderPosition() {
+            slider.style.transform = `translateX(-${activeIndex * 100}%)`;
+        }
+
+        nextBtn.addEventListener('click', () => {
+            activeIndex = (activeIndex + 1) % totalSlides;
+            updateSliderPosition();
+        });
+
+        prevBtn.addEventListener('click', () => {
+            activeIndex = (activeIndex - 1 + totalSlides) % totalSlides;
+            updateSliderPosition();
+        });
+
+        // ----------------------------------------------------
+        // COLLAPSIBLE FAQ ACCORDIONS
+        // ----------------------------------------------------
+        const faqToggles = document.querySelectorAll('.faq-toggle');
+
+        faqToggles.forEach(toggle => {
+            toggle.addEventListener('click', () => {
+                const content = toggle.nextElementSibling;
+                const icon = toggle.querySelector('[data-lucide="chevron-down"]');
+                const isOpened = content.style.maxHeight && content.style.maxHeight !== '0px';
+
+                // Close all existing open accordions for premium nested feel
+                document.querySelectorAll('.faq-content').forEach(item => {
+                    item.style.maxHeight = '0px';
+                    const itemToggle = item.previousElementSibling;
+                    const itemIcon = itemToggle.querySelector('[data-lucide="chevron-down"]');
+                    if (itemIcon) itemIcon.style.transform = 'rotate(0deg)';
+                });
+
+                // Toggle selected
+                if (!isOpened) {
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                    if (icon) icon.style.transform = 'rotate(180deg)';
+                } else {
+                    content.style.maxHeight = '0px';
+                    if (icon) icon.style.transform = 'rotate(0deg)';
+                }
+            });
+        });
+
+        // ----------------------------------------------------
+        // INTERACTIVE LEAD GENERATION SIGNUP FORM
+        // ----------------------------------------------------
+        const signupForm = document.getElementById('signupForm');
+        const signupSuccess = document.getElementById('signupSuccess');
+        const resetSignupBtn = document.getElementById('resetSignupBtn');
+
+        signupForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            // Simulate API transmission
+            signupForm.classList.add('opacity-50');
+            setTimeout(() => {
+                signupForm.classList.remove('opacity-50');
+                signupSuccess.classList.remove('hidden');
+                signupForm.reset();
+            }, 800);
+        });
+
+        resetSignupBtn.addEventListener('click', () => {
+            signupSuccess.classList.add('hidden');
         });
     </script>
 </body>
